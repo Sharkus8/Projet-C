@@ -1,3 +1,6 @@
+void creation_login
+
+{
 	printf ("Nom : ");
 	scanf("%s", employe.nom);
 	printf ("Prenom : ");
@@ -14,8 +17,8 @@
 	strcat(pseudo,partnom); //on concatène l'initiale du prénom avec les 6 premières lettres du nom 
 
 	printf("%s\n", pseudo);
-	
-	strcpy(employe.login_emp.username, pseudo);
+
+	strcpy(employe.login_emp.username, pseudo); // on enregistre le pseudo donné dans la struct associée
 	
 	printf("%s",employe.login_emp.username);
 	
@@ -23,7 +26,7 @@
 	
 	fp=fopen(nomfichier, "r");
 	
-	recherche(employe.login_emp.username)
+	recherche(employe.login_emp.username);
 	
 	if (numero != NON_TROUVE)
 	{
@@ -71,18 +74,18 @@
 	
 }
 
-
+// ce qui est en fait le menu principal, avec demande du mdp et droits associés
 {
-	int droits
-	char nomutilisateur[TAILLE_NOM], motdepasse[TAILLE_NOM]
+	int droits;
+	char nomutilisateur[TAILLE_NOM], motdepasse[TAILLE_NOM];
 	
 	printf("Entrez votre nom d'utilisateur");
-	scanf ("%s", nomutilisateur)
-	printf ("Entrez votre mot de passe : ")
+	scanf ("%s", nomutilisateur);
+	printf ("Entrez votre mot de passe : ");
 	scanf ("%s", motdepasse);
 	
 	numtab=recherche(nomutilisateur)
-	droits = employe.login_emp.valdroits[numtab]
+	droits = employe.login_emp.valdroit[numtab];
 	
 	if ((strcmp(numutilisateur,employe.login_emp.username[numtab]))&&(strcmp(motdepasse,employe.login_emp.motdepasse[numtab]))==0)
 	{
