@@ -4,12 +4,15 @@
 #define MAX_PERSONNES 100
 #define MAX_CONGES 25
 #define MAX_UTILISATEURS 10
+#define TAILLE_NOM 50 //j'add ça pour les char
+#define TAILLE_MOT 20
+#define TAILLE_POSTE 100
 
 // Structure pour représenter une personne
 struct Personne {
     int numeroIdentification;
-    char nom[50];
-    char prenom[50];
+    char nom[TAILLE_NOM];
+    char prenom[TAILLE_NOM];
     char adresse[100];
     char email[50];
     char telephone[15];
