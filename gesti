@@ -13,29 +13,63 @@ struct Personne {
     int numeroIdentification;
     char nom[TAILLE_NOM];
     char prenom[TAILLE_NOM];
-    char adresse[100];
-    char email[50];
-    char telephone[15];
+    struct datest date_naissance;
+        //char adresse[100];
+        // char email[50];
+        //char telephone[15];
+    struct coordonnees contact;
     char etatCivil[20];
-    char poste[50];
-    char grade[20];
+    struct datestruct date_embauche
+    char poste[TAILLE_POSTE];
+    char grade[TAILLE_MOT];
     float salaire;
     int age;
+    struct id_login login_emp;
 };
 
 // Structure pour représenter une demande de congé
 struct Conge {
     int numeroIdentification;
-    char dateDebut[11];
-    char dateFin[11];
+    struct datest dateDebut;
+    struct datest dateFin;
     char statut[20];
 };
 
 // Structure pour représenter un utilisateur avec ses droits
 struct Utilisateur {
-    char nomUtilisateur[20];
+    char nomUtilisateur[TAILLE_MOT];
     char role[20];
 };
+
+//structure du type global coordonnées
+struct coordonnees
+	{
+		char numero[TAILLE_NOM]; //numéro est de type char pour permettre l'écriture d'un "bis" et autres particularités de ce type
+		char rue[TAILLE_NOM];
+		char complement1[TAILLE_NOM];
+		char complement2[TAILLE_NOM];
+		int code_postal;
+		char ville[TAILLE_NOM];
+		char pays[TAILLE_NOM];
+		char adresse_mail[TAILLE_NOM];
+		int telephone;
+	};
+	
+//structure du type global date
+struct datest
+	{
+		int jour;
+		int mois;
+		int annee;
+	};
+	
+// structure du type global id_login qui permet d'unifier la structure de login 
+struct id_login
+	{
+		char username[TAILLE_MOT];
+		char motdepasse[TAILLE_MOT];
+		int valdroits;
+	};
 
 // Liste des personnes
 struct Personne personnes[MAX_PERSONNES];
