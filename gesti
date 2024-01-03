@@ -85,9 +85,12 @@ int nombreDemandesConges = 0;
 struct Utilisateur utilisateurs[MAX_UTILISATEURS];
 int nombreUtilisateurs = 0;
 
+
+//___________________________________________
 // Fonction pour créer une fiche de personne
-void creerFichePersonne(char *nom, char *prenom, char *adresse, char *email, char *telephone,
-                         char *etatCivil, char *poste, char *grade, float salaire, int age) {
+//___________________________________________
+void creerFichePersonne(char *nom, char *prenom, char *numrue, char *nomrue, char *comp1, char *comp2, char *ville, int *codepostal, char *pays, char *emailperso, int *telephone,
+                         char *etatCivil, int *jnaiss, int *mnaiss, int *anaiss,  char *poste, char *grade, float salaire, int age, char *serdep, int *jemb, int *memb, int *aemb) {
 FILE *fp
 
 fp = fopen(Fichierfiches.txt, "w")
@@ -95,20 +98,37 @@ fp = fopen(Fichierfiches.txt, "w")
     if (nombrePersonnes < MAX_PERSONNES) {
         struct Personne nouvellePersonne; // à quoi sert cette ligne ?
         nouvellePersonne.numeroIdentification = nombrePersonnes + 1; // Attribution d'un numéro d'identification simple
+
+//données personnelles FAIT
         strcpy(nouvellePersonne.nom, nom);
         strcpy(nouvellePersonne.prenom, prenom);
+	nouvellePersonne.date_naissance.jour = jnaiss;
+	nouvellePersonne.date_naissance.mois = mnaiss;
+	nouvellePersonne.date_naissance.annee = anaiss;
 
-//coordonnées
-        strcpy(nouvellePersonne.adresse, adresse);
-        strcpy(nouvellePersonne.email, email);
-        strcpy(nouvellePersonne.telephone, telephone);
 
-//relatif au travail
+//coordonnées FAIT
+       	 strcpy(nouvellePersonne.contact.numero, numrue);
+	 strcpy(nouvellePersonne.contact.rue, nomrue);
+	 strcpy(nouvellePersonne.contact.complement1, comp1);
+	 strcpy(nouvellePersonne.contact.complement2, comp2);
+	 nouvellePersonne.contact.code_postal = codepostal
+	 strcpy(nouvellePersonne.contact.ville, ville);
+	 strcpy(nouvellePersonne.contact.pays, pays);
+	 strcpy(nouvellePersonne.contact.adresse_mail, emailperso);
+       	 strcpy(nouvellePersonne.contact.telephone, telephone);
+
+//relatif au travail FAIT
         strcpy(nouvellePersonne.etatCivil, etatCivil);
         strcpy(nouvellePersonne.poste, poste);
         strcpy(nouvellePersonne.grade, grade);
         nouvellePersonne.salaire = salaire;
         nouvellePersonne.age = age;
+	strcpy(nouvellePersonne.ser_dep, serdep);
+     	nouvellePersonne.date_embauche.jour = jemb;
+	nouvellePersonne.date_embauche.mois = memb;
+	nouvellePersonne.date_embauche.annee = aemb;
+	
 
         personnes[nombrePersonnes++] = nouvellePersonne; //est-ce que cela ne remplace pas tous les strcpy ? Et on dégage tous les paramètres ? Ou alors il faut passer par là pour utiliser les pointeurs ? On verra ça demain mais je le note pour ne pas oublier
 
@@ -118,4 +138,76 @@ fp = fopen(Fichierfiches.txt, "w")
     } else {
         printf("Limite de personnes atteinte. Impossible de créer une nouvelle fiche.\n");
     }
+}
+
+
+//___________________________________________
+// fonction pour remplir une fiche de personne
+//___________________________________________
+void remplissage() //JE DOIS REMPLACER LES NOMS DE VARIABLE (je le fais demain trql)
+
+{
+printf("Vous allez remplir une nouvelle fiche d'information. \n");
+	
+	// infos basiques
+	printf ("Nom : ");
+	scanf ("%[^/n]", nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	printf ("Prénom : ");
+	scanf ("%s", prenom);
+	printf ("Jour de naissance : ");
+	scanf ("%d", &employe.date_naissance.jour);
+	printf ("Mois de naissance (en chiffres arabes): ");
+	scanf ("%d", &employe.date_naissance.mois);
+	printf ("Année de naissance : ");
+	scanf ("%d", &employe.date_naissance.annee);
+	
+	
+	//coordonnées
+	printf ("Coordonnées : \n");
+	printf ("Adresse : ");
+	printf ("Numéro de rue : ");
+	scanf ("%[^/n]", employe.contact.numero);
+	printf ("Nom de rue : ");
+	scanf ("%[^/n]", employe.contact.rue);
+	printf ("Complément d'adresse 1 : ");
+	scanf ("%[^/n]", employe.contact.complement1); 
+	printf ("Complément d'adresse 2 : ");
+	scanf ("%[^/n]", employe.contact.complement2); 
+	printf ("Code postal : ");
+	scanf ("%d", &employe.contact.code_postal);
+	printf ("Ville : ");
+	scanf ("%[^/n]", employe.contact.ville); 
+	printf ("Pays : ");
+	scanf ("%[^/n]", employe.contact.pays); 
+	printf ("Adresse mail personnelle : ");
+	scanf ("%s", employe.contact.adresse_mail);
+	printf ("Numéro de téléphone personnel : ");
+	scanf ("%d", &employe.contact.telephone);
+	
+	//embauche
+	printf ("Jour d'embauche : ");
+	scanf ("%d", &employe.date_embauche.jour);
+	printf ("Mois d'embauche (en chiffres arabes) : ");
+	scanf ("%d", &employe.date_embauche.mois);
+	printf ("Année d'embauche : ");
+	scanf ("%d", &employe.date_embauche.annee);
+	printf ("Poste : ");
+	scanf ("%[^/n]", employe.poste);
+	printf ("Salaire : ");
+	scanf ("%[^/n]", &employe.salaire);
+	printf ("Service ou département : "); 
+	scanf ("%[^/n]", employe.ser_dep);
+
+}
+
+//___________________________________________
+Fonction pour créer une adresse mail pro IDEM JE DOIS REMPLACER LES NOMS DE VARIABLES
+//___________________________________________
+void adressemail()
+{
+	strcpy(employe.adresse_mail_entreprise,employe.prenom)
+	TROUVER COMMENT SUPPRIMER LES ESPACES DUN NOM COMPOSE
+	strcat(employe.adresse_mail_entreprise,".");
+	strcat(employe.adresse_mail_entreprise,employe.nom);
+	strcat(employe.adresse_mail_entreprise,"@entreprise.com");
 }
