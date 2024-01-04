@@ -25,6 +25,7 @@ struct Personne {
     float salaire;
     int age;
     struct id_login login_emp;
+    char emailpro[TAILLE_NOM];
 };
 
 // Structure pour représenter une demande de congé
@@ -85,6 +86,79 @@ int nombreDemandesConges = 0;
 struct Utilisateur utilisateurs[MAX_UTILISATEURS];
 int nombreUtilisateurs = 0;
 
+//_________________________ déclaration des procédures et fonctions _______________________________
+void saisie();
+void creerFichepersonne();
+void adressemail();
+
+
+
+//___________________________________________
+// fonction pour saisir une fiche de personne
+//___________________________________________
+void saisie() 
+
+{
+printf("Vous allez remplir une nouvelle fiche d'information. \n");
+	
+	// infos basiques
+	printf ("Nom : ");
+	scanf ("%[^/n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	printf ("Prénom : ");
+	scanf ("%s", nouvellePersonne.prenom);
+	printf ("Jour de naissance : ");
+	scanf ("%d", &nouvellePersonne.date_naissance.jour);
+	printf ("Mois de naissance (en chiffres arabes): ");
+	scanf ("%d", &nouvellePersonne.date_naissance.mois);
+	printf ("Année de naissance : ");
+	scanf ("%d", &nouvellePersonne.date_naissance.annee);
+	
+	
+	//coordonnées
+	printf ("Coordonnées : \n");
+	printf ("Adresse : ");
+	printf ("Numéro de rue : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.numero);
+	printf ("Nom de rue : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.rue);
+	printf ("Complément d'adresse 1 : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.complement1); 
+	printf ("Complément d'adresse 2 : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.complement2); 
+	printf ("Code postal : ");
+	scanf ("%d", &nouvellePersonne.contact.code_postal);
+	printf ("Ville : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.ville); 
+	printf ("Pays : ");
+	scanf ("%[^/n]", nouvellePersonne.contact.pays); 
+	printf ("Adresse mail personnelle : ");
+	scanf ("%s", nouvellePersonne.contact.adresse_mail);
+	printf ("Numéro de téléphone personnel : ");
+	scanf ("%d", &nouvellePersonne.contact.telephone);
+	printf ("Etat civil : ");
+	scanf ("%[^/n]", nouvellePersonne.etatCivil);
+	
+	//embauche
+	printf ("Jour d'embauche : ");
+	scanf ("%d", &nouvellePersonne.date_embauche.jour);
+	printf ("Mois d'embauche (en chiffres arabes) : ");
+	scanf ("%d", &nouvellePersonne.date_embauche.mois);
+	printf ("Année d'embauche : ");
+	scanf ("%d", &nouvellePersonne.date_embauche.annee);
+	printf ("Poste : ");
+	scanf ("%[^/n]", nouvellePersonne.poste);
+	printf ("Grade : ");
+	scanf ("%[^/n]", nouvellePersonne.grade);
+	printf ("Salaire : ");
+	scanf ("%[^/n]", &nouvellePersonne.salaire);
+	printf ("Service ou département : "); 
+	scanf ("%[^/n]", nouvellePersonne.ser_dep);
+
+	//email et login
+	strcpy(nouvellePersonne.emailpro, adressemail(nouvellePersonne.nom, nouvellePersonne.prenom))
+	
+
+}
 
 //___________________________________________
 // Fonction pour créer une fiche de personne
@@ -141,73 +215,19 @@ fp = fopen(Fichierfiches.txt, "w")
 }
 
 
-//___________________________________________
-// fonction pour remplir une fiche de personne
-//___________________________________________
-void remplissage() //JE DOIS REMPLACER LES NOMS DE VARIABLE (je le fais demain trql)
 
-{
-printf("Vous allez remplir une nouvelle fiche d'information. \n");
-	
-	// infos basiques
-	printf ("Nom : ");
-	scanf ("%[^/n]", nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
-	printf ("Prénom : ");
-	scanf ("%s", prenom);
-	printf ("Jour de naissance : ");
-	scanf ("%d", &employe.date_naissance.jour);
-	printf ("Mois de naissance (en chiffres arabes): ");
-	scanf ("%d", &employe.date_naissance.mois);
-	printf ("Année de naissance : ");
-	scanf ("%d", &employe.date_naissance.annee);
-	
-	
-	//coordonnées
-	printf ("Coordonnées : \n");
-	printf ("Adresse : ");
-	printf ("Numéro de rue : ");
-	scanf ("%[^/n]", employe.contact.numero);
-	printf ("Nom de rue : ");
-	scanf ("%[^/n]", employe.contact.rue);
-	printf ("Complément d'adresse 1 : ");
-	scanf ("%[^/n]", employe.contact.complement1); 
-	printf ("Complément d'adresse 2 : ");
-	scanf ("%[^/n]", employe.contact.complement2); 
-	printf ("Code postal : ");
-	scanf ("%d", &employe.contact.code_postal);
-	printf ("Ville : ");
-	scanf ("%[^/n]", employe.contact.ville); 
-	printf ("Pays : ");
-	scanf ("%[^/n]", employe.contact.pays); 
-	printf ("Adresse mail personnelle : ");
-	scanf ("%s", employe.contact.adresse_mail);
-	printf ("Numéro de téléphone personnel : ");
-	scanf ("%d", &employe.contact.telephone);
-	
-	//embauche
-	printf ("Jour d'embauche : ");
-	scanf ("%d", &employe.date_embauche.jour);
-	printf ("Mois d'embauche (en chiffres arabes) : ");
-	scanf ("%d", &employe.date_embauche.mois);
-	printf ("Année d'embauche : ");
-	scanf ("%d", &employe.date_embauche.annee);
-	printf ("Poste : ");
-	scanf ("%[^/n]", employe.poste);
-	printf ("Salaire : ");
-	scanf ("%[^/n]", &employe.salaire);
-	printf ("Service ou département : "); 
-	scanf ("%[^/n]", employe.ser_dep);
-
-}
 
 //___________________________________________
 Fonction pour créer une adresse mail pro IDEM JE DOIS REMPLACER LES NOMS DE VARIABLES
 //___________________________________________
-void adressemail()
+char adressemail(nom[], prenom[])
 {
-	strcpy(employe.adresse_mail_entreprise,employe.prenom)
+char nom[TAILLE_NOM], prenom[TAILLE_NOM], email[TAILLE_NOM]
+	strcpy(email,prenom)
 	TROUVER COMMENT SUPPRIMER LES ESPACES DUN NOM COMPOSE
-	strcat(employe.adresse_mail_entreprise,".");
-	strcat(employe.adresse_mail_entreprise,employe.nom);
-	strcat(employe.adresse_mail_entreprise,"@entreprise.com");
+	strcat(email,".");
+	strcat(email,nom);
+	strcat(email,"@entreprise.com");
+
+	return email;
 }
