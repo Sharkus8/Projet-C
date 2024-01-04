@@ -156,6 +156,10 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 
 	//email et login
 	strcpy(nouvellePersonne.emailpro, adressemail(nouvellePersonne.nom, nouvellePersonne.prenom))
+
+
+	//on ajoute ce remplissage au tableau personnes
+	personnes[i]=nouvellePersonne
 	
 
 }
@@ -167,7 +171,6 @@ void creerFichePersonne(char *nom, char *prenom, char *numrue, char *nomrue, cha
                          char *etatCivil, int *jnaiss, int *mnaiss, int *anaiss,  char *poste, char *grade, float salaire, int age, char *serdep, int *jemb, int *memb, int *aemb) {
 FILE *fp
 
-fp = fopen(Fichierfiches.txt, "w")
 
     if (nombrePersonnes < MAX_PERSONNES) {
         struct Personne nouvellePersonne; // à quoi sert cette ligne ?
@@ -204,11 +207,45 @@ fp = fopen(Fichierfiches.txt, "w")
 	nouvellePersonne.date_embauche.annee = aemb;
 	
 
-        personnes[nombrePersonnes++] = nouvellePersonne; //est-ce que cela ne remplace pas tous les strcpy ? Et on dégage tous les paramètres ? Ou alors il faut passer par là pour utiliser les pointeurs ? On verra ça demain mais je le note pour ne pas oublier
+//----------- ce que je te propose en remplacement pour cette fonction
 
-	fprintf(fp, //TERMINER CE FPRINTF quand les modifications des strcpy seront faites
+	fp = fopen(Fichierfiches.txt, "w")
+
+        personnes[nombrePersonnes++] = nouvellePersonne; 
+
+	for (i=0; i<nombrePersonne; i++)
+// infos basiques
+	fprintf (fp, "%[^/n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	fprintf (fp, "%s", nouvellePersonne.prenom);
+	fprintf (fp, "%d", &nouvellePersonne.date_naissance.jour);
+	fprintf (fp, "%d", &nouvellePersonne.date_naissance.mois);
+	fprintf (fp, "%d", &nouvellePersonne.date_naissance.annee);
+	
+	
+	//coordonnées
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.numero);
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.rue);
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.complement1); 
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.complement2); 
+	fprintf (fp, "%d", &nouvellePersonne.contact.code_postal);
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.ville); 
+	fprintf (fp, "%[^/n]", nouvellePersonne.contact.pays); 
+	fprintf (fp, "%s", nouvellePersonne.contact.adresse_mail);
+	fprintf (fp, "%d", &nouvellePersonne.contact.telephone);
+	fprintf (fp, "%[^/n]", nouvellePersonne.etatCivil);
+	
+	//embauche
+	fprintf (fp, "%d", &nouvellePersonne.date_embauche.jour);
+	fprintf (fp, "%d", &nouvellePersonne.date_embauche.mois);
+	fprintf (fp, "%d", &nouvellePersonne.date_embauche.annee);
+	fprintf (fp, "%[^/n]", nouvellePersonne.poste);
+	fprintf (fp, "%[^/n]", nouvellePersonne.grade);
+	fprintf (fp, "%[^/n]", &nouvellePersonne.salaire);
+	fprintf (fp, "%[^/n]", nouvellePersonne.ser_dep);
+
 
         printf("Fiche de %s %s enregistrée avec succès.\n", prenom, nom);
+
     } else {
         printf("Limite de personnes atteinte. Impossible de créer une nouvelle fiche.\n");
     }
