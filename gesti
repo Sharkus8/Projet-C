@@ -89,7 +89,9 @@ int nombreUtilisateurs = 0;
 //_________________________ déclaration des procédures et fonctions _______________________________
 void saisie();
 void creerFichepersonne();
-void adressemail();
+char adressemail(char nom[], char prenom[]);
+void crealogin();
+char supprespaces(char cdc[])
 
 
 
@@ -299,7 +301,33 @@ char partnom[5], pseudo[7]
 	
 	if (numero != NON_TROUVE)
 	{
-		strcat(employe.login_emp.username, i);
+		strcat(nouvellePersonne.login_emp.username, i);
 		i++ //utilisation de i tout username doublon confondu pour éviter les triplons 
 	}
+}
+
+
+//___________________________________________
+Fonction pour retirer les espaces d'une chaîne de caractères
+//___________________________________________
+
+char supprespaces(char cdc[])
+{
+	char cdc2[50];	
+	int i, j, taille_cdc;
+
+	taille_cdc = strlen(cdc);
+
+	j=0;
+
+	for (i=0; i<taille_cdc; i++)
+	{
+		if (cdc[i]!=' ')
+			{
+				cdc2[j]=cdc[i];
+				j++;	
+		
+			}	
+	}
+	return cdc2;
 }
