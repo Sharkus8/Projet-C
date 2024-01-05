@@ -91,7 +91,18 @@ void saisie();
 void creerFichepersonne();
 char adressemail(char nom[], char prenom[]);
 void crealogin();
-char supprespaces(char cdc[])
+char supprespaces(char cdc[]);
+char underscore8(char cdc []);
+char fromunderscoretospace(char cdc []);
+void conv_maj(char cdc[]);
+void convmaj1cdc(char cdc[]);
+
+
+//________________________________________________________________________________________________
+---------------------------------MAIN MENU PRINCIPAL---------------------------------------------
+//________________________________________________________________________________________________
+
+
 
 
 
@@ -99,7 +110,6 @@ char supprespaces(char cdc[])
 // fonction pour saisir une fiche de personne
 //___________________________________________
 void saisie() 
-
 {
 struct personne nouvellePersonne
 printf("Vous allez remplir une nouvelle fiche d'information. \n");
@@ -162,8 +172,7 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 
 
 	//on ajoute ce remplissage au tableau personnes
-	personnes[i]=nouvellePersonne
-	
+	personnes[nombreUtilisateurs++]=nouvellePersonne
 
 }
 
@@ -210,13 +219,15 @@ FILE *fp
 	nouvellePersonne.date_embauche.annee = aemb;
 	
 
-//----------- ce que je te propose en remplacement pour cette fonction
+//----------- ce que je te propose en remplacement pour cette fonction. Il faudra y ajouter des fonctions underscore8 pour chaque actions qui concerne un cdc avec espace
 
 	fp = fopen(Fichierfiches.txt, "w")
 
-        personnes[nombrePersonnes++] = nouvellePersonne; 
-
 	for (i=0; i<nombrePersonne; i++)
+
+{
+	personnes[nombrePersonnes++] = nouvellePersonne; 
+
 // infos basiques
 	fprintf (fp, "%[^\n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
 	fprintf (fp, "%s", nouvellePersonne.prenom);
@@ -248,8 +259,8 @@ FILE *fp
 
 	fclose(Fichierfiches.txt);
 
-
         printf("Fiche de %s %s enregistrée avec succès.\n", prenom, nom);
+}
 
     } else {
         printf("Limite de personnes atteinte. Impossible de créer une nouvelle fiche.\n");
@@ -260,7 +271,7 @@ FILE *fp
 
 
 //___________________________________________
-Fonction pour créer une adresse mail pro 
+// Fonction pour créer une adresse mail pro 
 //___________________________________________
 char adressemail(nom[], prenom[])
 {
@@ -275,7 +286,7 @@ char nom[TAILLE_NOM], prenom[TAILLE_NOM], email[TAILLE_NOM]
 }
 
 //___________________________________________
-Procédure pour créer une adresse mail pro 
+// Procédure pour créer une adresse mail pro 
 //___________________________________________
 
 void crealogin()
@@ -309,7 +320,7 @@ char partnom[5], pseudo[7]
 
 
 //___________________________________________
-Fonction pour retirer les espaces d'une chaîne de caractères
+// Fonction pour retirer les espaces d'une chaîne de caractères
 //___________________________________________
 
 char supprespaces(char cdc[])
@@ -334,8 +345,81 @@ char supprespaces(char cdc[])
 }
 
 //___________________________________________
-Fonction pour remplacer les espaces d'une cdc par des "_"
+// Fonction pour remplacer les espaces d'une cdc par des "_"
 //___________________________________________
 
 char underscore8(char cdc [])
 {
+	int i, taillecdc;
+	
+	i=0;
+	
+	taillecdc = strlen(cdc);
+	for (i=0; i<taillecdc; i++)
+	{
+		if (cdc[i]==' ')
+		{
+			cdc[i]='_';
+		}
+	}
+	
+	return cdc
+}
+
+//___________________________________________
+//Fonction pour remplacer les "_" par des espaces
+//___________________________________________
+
+char fromunderscoretospace(char cdc [])
+{
+	int i, taillecdc;
+	
+	i=0;
+	
+	taillecdc = strlen(cdc);
+	for (i=0; i<taillecdc; i++)
+	{
+		if (cdc[i]=='_')
+		{
+			cdc[i]=' ';
+		}
+	}
+	
+	return cdc
+}
+
+//___________________________________________
+//Procédure pour convertir en majuscule
+//___________________________________________
+
+void conv_maj(char cdc[]) 
+{
+	int taille, i;
+	
+	taille = strlen(cdc);
+	
+	for (i=0; i<taille; i++)
+	{
+		cdc[i]=toupper(cdc[i]);
+	}
+}
+
+//___________________________________________
+//Procédure pour  mettre une majuscule en début de mot sur une cdc
+//___________________________________________
+
+void convmaj1cdc(char cdc[]) 
+{
+	int taille, i;
+	
+	taille = strlen(cdc);
+	cdc[0]=toupper(cdc[0]);
+	
+	for (i=0; i<taille; i++)
+	{
+		if (cdc[i]==' ')
+		{
+		cdc[i]=toupper(cdc[i++]);
+		}
+	}
+}
