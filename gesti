@@ -176,7 +176,7 @@ FILE *fp
         struct Personne nouvellePersonne; // à quoi sert cette ligne ?
         nouvellePersonne.numeroIdentification = nombrePersonnes + 1; // Attribution d'un numéro d'identification simple
 
-//données personnelles FAIT
+//données personnelles
         strcpy(nouvellePersonne.nom, nom);
         strcpy(nouvellePersonne.prenom, prenom);
 	nouvellePersonne.date_naissance.jour = jnaiss;
@@ -184,7 +184,7 @@ FILE *fp
 	nouvellePersonne.date_naissance.annee = anaiss;
 
 
-//coordonnées FAIT
+//coordonnées
        	 strcpy(nouvellePersonne.contact.numero, numrue);
 	 strcpy(nouvellePersonne.contact.rue, nomrue);
 	 strcpy(nouvellePersonne.contact.complement1, comp1);
@@ -195,7 +195,7 @@ FILE *fp
 	 strcpy(nouvellePersonne.contact.adresse_mail, emailperso);
        	 strcpy(nouvellePersonne.contact.telephone, telephone);
 
-//relatif au travail FAIT
+//relatif au travail
         strcpy(nouvellePersonne.etatCivil, etatCivil);
         strcpy(nouvellePersonne.poste, poste);
         strcpy(nouvellePersonne.grade, grade);
@@ -242,6 +242,8 @@ FILE *fp
 	fprintf (fp, "%[^/n]", nouvellePersonne.grade);
 	fprintf (fp, "%[^/n]", &nouvellePersonne.salaire);
 	fprintf (fp, "%[^/n]", nouvellePersonne.ser_dep);
+
+	fclose(Fichierfiches.txt);
 
 
         printf("Fiche de %s %s enregistrée avec succès.\n", prenom, nom);
