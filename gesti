@@ -257,7 +257,7 @@ FILE *fp
 
 
 //___________________________________________
-Fonction pour créer une adresse mail pro IDEM JE DOIS REMPLACER LES NOMS DE VARIABLES
+Fonction pour créer une adresse mail pro 
 //___________________________________________
 char adressemail(nom[], prenom[])
 {
@@ -269,4 +269,37 @@ char nom[TAILLE_NOM], prenom[TAILLE_NOM], email[TAILLE_NOM]
 	strcat(email,"@entreprise.com");
 
 	return email;
+}
+
+//___________________________________________
+Procédure pour créer une adresse mail pro 
+//___________________________________________
+
+void crealogin()
+{
+char partnom[5], pseudo[7]
+	
+	strncpy(partnom, nouvellePersonne.nom, 6); // on garde 6 lettres du nom de famille
+	printf("%s\n", partnom);
+	
+	strncpy(pseudo, nouvellePersonne.prenom, 1); //la première lettre du prénom en début d'username
+	printf("%s\n", pseudo);
+
+	strcat(pseudo,partnom); //on concatène l'initiale du prénom avec les 6 premières lettres du nom 
+
+	printf("%s\n", pseudo);
+
+	strcpy(nouvellePersonne.login_emp.username, pseudo); // on enregistre le pseudo donné dans la struct associée
+	
+	// pour ajouter un chiffre à la fin d'un doublon 
+	
+	fp=fopen(nomfichier, "r");
+	
+	recherche(nouvellePersonne.login_emp.username);
+	
+	if (numero != NON_TROUVE)
+	{
+		strcat(employe.login_emp.username, i);
+		i++ //utilisation de i tout username doublon confondu pour éviter les triplons 
+	}
 }
