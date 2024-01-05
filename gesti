@@ -101,11 +101,12 @@ char supprespaces(char cdc[])
 void saisie() 
 
 {
+struct personne nouvellePersonne
 printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	
 	// infos basiques
 	printf ("Nom : ");
-	scanf ("%[^/n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	scanf ("%[^\n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
 	printf ("Prénom : ");
 	scanf ("%s", nouvellePersonne.prenom);
 	printf ("Jour de naissance : ");
@@ -120,25 +121,25 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	printf ("Coordonnées : \n");
 	printf ("Adresse : ");
 	printf ("Numéro de rue : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.numero);
+	scanf ("%[^\n]", nouvellePersonne.contact.numero);
 	printf ("Nom de rue : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.rue);
+	scanf ("%[^\n]", nouvellePersonne.contact.rue);
 	printf ("Complément d'adresse 1 : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.complement1); 
+	scanf ("%[^\n]", nouvellePersonne.contact.complement1); 
 	printf ("Complément d'adresse 2 : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.complement2); 
+	scanf ("%[^\n]", nouvellePersonne.contact.complement2); 
 	printf ("Code postal : ");
 	scanf ("%d", &nouvellePersonne.contact.code_postal);
 	printf ("Ville : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.ville); 
+	scanf ("%[^\n]", nouvellePersonne.contact.ville); 
 	printf ("Pays : ");
-	scanf ("%[^/n]", nouvellePersonne.contact.pays); 
+	scanf ("%[^\n]", nouvellePersonne.contact.pays); 
 	printf ("Adresse mail personnelle : ");
 	scanf ("%s", nouvellePersonne.contact.adresse_mail);
 	printf ("Numéro de téléphone personnel : ");
 	scanf ("%d", &nouvellePersonne.contact.telephone);
 	printf ("Etat civil : ");
-	scanf ("%[^/n]", nouvellePersonne.etatCivil);
+	scanf ("%[^\n]", nouvellePersonne.etatCivil);
 	
 	//embauche
 	printf ("Jour d'embauche : ");
@@ -148,13 +149,13 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	printf ("Année d'embauche : ");
 	scanf ("%d", &nouvellePersonne.date_embauche.annee);
 	printf ("Poste : ");
-	scanf ("%[^/n]", nouvellePersonne.poste);
+	scanf ("%[^\n]", nouvellePersonne.poste);
 	printf ("Grade : ");
-	scanf ("%[^/n]", nouvellePersonne.grade);
+	scanf ("%[^\n]", nouvellePersonne.grade);
 	printf ("Salaire : ");
-	scanf ("%[^/n]", &nouvellePersonne.salaire);
+	scanf ("%[^\n]", &nouvellePersonne.salaire);
 	printf ("Service ou département : "); 
-	scanf ("%[^/n]", nouvellePersonne.ser_dep);
+	scanf ("%[^\n]", nouvellePersonne.ser_dep);
 
 	//email et login
 	strcpy(nouvellePersonne.emailpro, adressemail(nouvellePersonne.nom, nouvellePersonne.prenom))
@@ -217,7 +218,7 @@ FILE *fp
 
 	for (i=0; i<nombrePersonne; i++)
 // infos basiques
-	fprintf (fp, "%[^/n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	fprintf (fp, "%[^\n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
 	fprintf (fp, "%s", nouvellePersonne.prenom);
 	fprintf (fp, "%d", &nouvellePersonne.date_naissance.jour);
 	fprintf (fp, "%d", &nouvellePersonne.date_naissance.mois);
@@ -225,25 +226,25 @@ FILE *fp
 	
 	
 	//coordonnées
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.numero);
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.rue);
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.complement1); 
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.complement2); 
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.numero);
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.rue);
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.complement1); 
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.complement2); 
 	fprintf (fp, "%d", &nouvellePersonne.contact.code_postal);
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.ville); 
-	fprintf (fp, "%[^/n]", nouvellePersonne.contact.pays); 
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.ville); 
+	fprintf (fp, "%[^\n]", nouvellePersonne.contact.pays); 
 	fprintf (fp, "%s", nouvellePersonne.contact.adresse_mail);
 	fprintf (fp, "%d", &nouvellePersonne.contact.telephone);
-	fprintf (fp, "%[^/n]", nouvellePersonne.etatCivil);
+	fprintf (fp, "%[^\n]", nouvellePersonne.etatCivil);
 	
 	//embauche
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.jour);
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.mois);
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.annee);
-	fprintf (fp, "%[^/n]", nouvellePersonne.poste);
-	fprintf (fp, "%[^/n]", nouvellePersonne.grade);
-	fprintf (fp, "%[^/n]", &nouvellePersonne.salaire);
-	fprintf (fp, "%[^/n]", nouvellePersonne.ser_dep);
+	fprintf (fp, "%[^\n]", nouvellePersonne.poste);
+	fprintf (fp, "%[^\n]", nouvellePersonne.grade);
+	fprintf (fp, "%[^\n]", &nouvellePersonne.salaire);
+	fprintf (fp, "%[^\n]", nouvellePersonne.ser_dep);
 
 	fclose(Fichierfiches.txt);
 
@@ -331,3 +332,10 @@ char supprespaces(char cdc[])
 	}
 	return cdc2;
 }
+
+//___________________________________________
+Fonction pour remplacer les espaces d'une cdc par des "_"
+//___________________________________________
+
+char underscore8(char cdc [])
+{
