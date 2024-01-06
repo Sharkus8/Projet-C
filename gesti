@@ -276,7 +276,6 @@ void afficherfiche()
 int i, num, choix, numtab;
 char nom[TAILLE_NOM];
 struct personne employe;
-FILE fp*
 
 printf ("Souhaitez vous rechercher une personne par son numéro d'identification (tapez 1) ou par son nom de famille (tapez 2) ?");
 scanf ("%d", &choix);
@@ -320,17 +319,34 @@ scanf ("%d", &choix);
 	scanf ("%[^\n]", employe.etatCivil);
 	
 	//embauche
+	prints ("Numéro employé : %d\n", employe.numeroIdentification);
 	printf ("Date d'entree au sein de l'entreprise : %d / %d / %d \n", employe.date_embauche.jour, employe.date_embauche.mois, employe.date_embauche.annee);
 	printf ("Poste : %s\n", employe.poste);
 	printf ("Grade : %s\n", employe.grade);
 	printf ("Salaire : %s\n", employe.salaire);
 	printf ("Service ou département : %s\n", employe.ser_dep);
 	printf ("Adresse mail professionnelle : %s\n", employe.emailpro);
+}
 
 //___________________________________________
 // Procédure pour charger le fichier personnels
 //___________________________________________
-void chargement
+void chargementfichier()
+{
+struct personne employe;
+int i;
+FILE *fp;
+
+i=0;
+
+fp = fopen(Fichierfiches.txt, "r");
+
+while (fscanf(fp, "%d %s %s", &employe.numeroIdentification, employe.nom, employe.emailpro)!= EOF)
+	{
+	personnes[i++]=employe;
+	}
+fclose(f1);
+}
 
 
 //___________________________________________
