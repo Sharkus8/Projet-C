@@ -132,7 +132,7 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	printf ("Adresse : ");
 	printf ("Numéro de rue : ");
 	scanf ("%[^\n]", nouvellePersonne.contact.numero);
-	printf ("Nom de rue : ");
+	printf ("Nom de rue (précisez "rue", "boulevard" ou tout autre indicatif): ");
 	scanf ("%[^\n]", nouvellePersonne.contact.rue);
 	printf ("Complément d'adresse 1 : ");
 	scanf ("%[^\n]", nouvellePersonne.contact.complement1); 
@@ -273,11 +273,64 @@ FILE *fp
 
 void afficherfiche()
 {
-int i;
+int i, num, choix, numtab;
+char nom[TAILLE_NOM];
 struct personne employe;
+FILE fp*
 
+printf ("Souhaitez vous rechercher une personne par son numéro d'identification (tapez 1) ou par son nom de famille (tapez 2) ?");
+scanf ("%d", &choix);
+	switch choix;
+	{
+		case 1:
+		{
+			printf "Entrez le numéro : ";
+			scanf ("%d", num);
+			numtab = recherche(num);
+			break;
+		}
+		case 2:
+		{
+			printf "Entrez le nom de famille : ";
+			scanf ("%[^\n]", nom);
+			numtab = recherche(nom);
+			break;
+		}
 
+	personne[numtab]=employe
 
+	printf ("Fiche de renseignement de %s %s", employe.nom, employe.prenom);
+
+	printf ("Nom : %[^\n]\n", employe.nom);
+	printf ("Prénom : %s\n", employe.prenom);
+	printf ("Ne(e) le %d / %d / %d \n", employe.date_naissance.jour, employe.date_naissance.mois, employe.date_naissance.annee);
+	
+	//coordonnées
+	printf ("Coordonnées : \n");
+	printf ("Adresse : ");
+	printf ("%s %s\n", employe.contact.numero, employe.contact.rue);
+	printf ("%s\n", employe.contact.complement1); 
+	printf ("%s\n", employe.contact.complement2); 
+	printf ("%d %s\n", employe.contact.code_postal, employe.contact.ville); 
+	printf ("%s\n ", employe.contact.pays); 
+	printf ("Adresse mail personnelle : %s\n ", employe.contact.adresse_mail);
+	printf ("Numéro de téléphone personnel : ");
+	scanf ("%d", employe.contact.telephone);
+	printf ("Etat civil : ");
+	scanf ("%[^\n]", employe.etatCivil);
+	
+	//embauche
+	printf ("Date d'entree au sein de l'entreprise : %d / %d / %d \n", employe.date_embauche.jour, employe.date_embauche.mois, employe.date_embauche.annee);
+	printf ("Poste : %s\n", employe.poste);
+	printf ("Grade : %s\n", employe.grade);
+	printf ("Salaire : %s\n", employe.salaire);
+	printf ("Service ou département : %s\n", employe.ser_dep);
+	printf ("Adresse mail professionnelle : %s\n", employe.emailpro);
+
+//___________________________________________
+// Procédure pour charger le fichier personnels
+//___________________________________________
+void chargement
 
 
 //___________________________________________
