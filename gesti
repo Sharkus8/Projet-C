@@ -177,7 +177,7 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 }
 
 //___________________________________________
-// Fonction pour créer une fiche de personne
+// Fonction pour créer/sauvegarder une fiche de personne
 //___________________________________________
 void creerFichePersonne(char *nom, char *prenom, char *numrue, char *nomrue, char *comp1, char *comp2, char *ville, int *codepostal, char *pays, char *emailperso, int *telephone,
                          char *etatCivil, int *jnaiss, int *mnaiss, int *anaiss,  char *poste, char *grade, float salaire, int age, char *serdep, int *jemb, int *memb, int *aemb) {
@@ -266,6 +266,16 @@ FILE *fp
         printf("Limite de personnes atteinte. Impossible de créer une nouvelle fiche.\n");
     }
 }
+
+//___________________________________________
+// Fonction pour afficher une fiche
+//___________________________________________
+
+void afficherfiche()
+{
+int i;
+struct personne employe;
+
 
 
 
