@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_PERSONNES 100
 #define MAX_CONGES 25
@@ -555,3 +556,8 @@ void convmaj1cdc(char cdc[])
 
 	}
 }
+
+//___________________________________________
+//Procédure pour donner des calculs de salaire
+//___________________________________________
+
