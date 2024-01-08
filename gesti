@@ -478,7 +478,7 @@ char underscore8(char cdc [])
 		}
 	}
 	
-	return cdc
+	return cdc;
 }
 
 //___________________________________________
@@ -500,7 +500,7 @@ char fromunderscoretospace(char cdc [])
 		}
 	}
 	
-	return cdc
+	return cdc;
 }
 
 //___________________________________________
