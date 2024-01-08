@@ -43,7 +43,7 @@ struct Utilisateur {
     char role[20];
 };
 
-//structure du type global coordonnées
+//structure des coordonnées
 struct coordonnees
 	{
 		char numero[TAILLE_NOM]; //numéro est de type char pour permettre l'écriture d'un "bis" et autres particularités de ce type
@@ -57,7 +57,7 @@ struct coordonnees
 		int telephone;
 	};
 	
-//structure du type global date
+//structure d'une date
 struct datest
 	{
 		int jour;
@@ -65,7 +65,7 @@ struct datest
 		int annee;
 	};
 	
-// structure du type global id_login qui permet d'unifier la structure de login 
+// structure de id_login qui permet d'unifier la structure de login 
 struct id_login
 	{
 		char username[TAILLE_MOT];
@@ -73,6 +73,18 @@ struct id_login
 		int valdroits;
 	};
 
+//strcuture de fiche de poste pour avoir des fiches de postes unifiées
+struct ficheposte
+	{
+		char nomposte[TAILLE_MOT];
+		char salairedebutposte[TAILLE_MOT];
+		char diplome[TAILLE_MOT];
+		char gradeposte[TAILLE_MOT];
+	}
+
+
+
+//---------------------- Variables globales --------------------
 // Liste des personnes
 struct Personne personnes[MAX_PERSONNES];
 int nombrePersonnes = 0;
