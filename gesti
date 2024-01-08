@@ -494,11 +494,16 @@ void convmaj1cdc(char cdc[])
 	taille = strlen(cdc);
 	cdc[0]=toupper(cdc[0]);
 	
-	for (i=0; i<taille; i++)
+	for (i=1; i<taille; i++)
 	{
-		if (cdc[i]==' ')
+		if (cdc[i-1]==' ')
 		{
-		cdc[i]=toupper(cdc[i++]);
+		cdc[i]=toupper(cdc[i]);
 		}
+		else
+		{
+		cdc[i]=tolower(cdc[i]);
+		}
+
 	}
 }
