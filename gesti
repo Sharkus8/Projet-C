@@ -91,6 +91,7 @@ void saisie();
 void creerFichepersonne();
 char adressemail(char nom[], char prenom[]);
 void crealogin();
+void chargementfichier();
 char supprespaces(char cdc[]);
 char underscore8(char cdc []);
 char fromunderscoretospace(char cdc []);
@@ -118,7 +119,7 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	printf ("Nom : ");
 	scanf ("%[^\n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
 	printf ("Prénom : ");
-	scanf ("%s", nouvellePersonne.prenom);
+	scanf ("%[^\n]", nouvellePersonne.prenom);
 	printf ("Jour de naissance : ");
 	scanf ("%d", &nouvellePersonne.date_naissance.jour);
 	printf ("Mois de naissance (en chiffres arabes): ");
@@ -162,7 +163,7 @@ printf("Vous allez remplir une nouvelle fiche d'information. \n");
 	scanf ("%[^\n]", nouvellePersonne.poste);
 	printf ("Grade : ");
 	scanf ("%[^\n]", nouvellePersonne.grade);
-	printf ("Salaire : ");
+	printf ("Salaire (précisez la devise): ");
 	scanf ("%[^\n]", &nouvellePersonne.salaire);
 	printf ("Service ou département : "); 
 	scanf ("%[^\n]", nouvellePersonne.ser_dep);
@@ -219,7 +220,7 @@ FILE *fp
 	nouvellePersonne.date_embauche.annee = aemb;
 	
 
-//----------- ce que je te propose en remplacement pour cette fonction. Il faudra y ajouter des fonctions underscore8 pour chaque actions qui concerne un cdc avec espace
+//----------- ce que je te propose en remplacement pour cette fonction. La fonction underscore 8 remplace les espaces par des _, ce qui garantit leur intégrité dans le fichier txt
 
 	fp = fopen(Fichierfiches.txt, "w")
 
@@ -229,7 +230,9 @@ FILE *fp
 	personnes[nombrePersonnes++] = nouvellePersonne; 
 
 // infos basiques
-	fprintf (fp, "%[^\n]", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	underscore8(nouvellePersonne.nom);
+	fprintf (fp, "%s", nouvellePersonne.nom); 
+	underscore8(nouvellePersonne.prenom);
 	fprintf (fp, "%s", nouvellePersonne.prenom);
 	fprintf (fp, "%d", &nouvellePersonne.date_naissance.jour);
 	fprintf (fp, "%d", &nouvellePersonne.date_naissance.mois);
@@ -237,25 +240,36 @@ FILE *fp
 	
 	
 	//coordonnées
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.numero);
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.rue);
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.complement1); 
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.complement2); 
+	underscore8(nouvellePersonne.contact.numero);
+	fprintf (fp, "%s", nouvellePersonne.contact.numero);
+	underscore8(nouvellePersonne.contact.rue);
+	fprintf (fp, "%s", nouvellePersonne.contact.rue);
+	underscore8(nouvellePersonne.contact.complement1);
+	fprintf (fp, "%s", nouvellePersonne.contact.complement1); 
+	underscore8(nouvellePersonne.contact.complement2);
+	fprintf (fp, "%s", nouvellePersonne.contact.complement2); 
 	fprintf (fp, "%d", &nouvellePersonne.contact.code_postal);
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.ville); 
-	fprintf (fp, "%[^\n]", nouvellePersonne.contact.pays); 
+	underscore8(nouvellePersonne.contact.ville);
+	fprintf (fp, "%s", nouvellePersonne.contact.ville); 
+	underscore8(nouvellePersonne.contact.pays);
+	fprintf (fp, "%s", nouvellePersonne.contact.pays); 
 	fprintf (fp, "%s", nouvellePersonne.contact.adresse_mail);
 	fprintf (fp, "%d", &nouvellePersonne.contact.telephone);
-	fprintf (fp, "%[^\n]", nouvellePersonne.etatCivil);
+	underscore8(nouvellePersonne.etatCivil);
+	fprintf (fp, "%s", nouvellePersonne.etatCivil);
 	
 	//embauche
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.jour);
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.mois);
 	fprintf (fp, "%d", &nouvellePersonne.date_embauche.annee);
-	fprintf (fp, "%[^\n]", nouvellePersonne.poste);
-	fprintf (fp, "%[^\n]", nouvellePersonne.grade);
-	fprintf (fp, "%[^\n]", &nouvellePersonne.salaire);
-	fprintf (fp, "%[^\n]", nouvellePersonne.ser_dep);
+	underscore8(nouvellePersonne.poste);
+	fprintf (fp, "%s", nouvellePersonne.poste);
+	underscore8(nouvellePersonne.grade);
+	fprintf (fp, "%s", nouvellePersonne.grade);
+	underscore8(nouvellePersonne.salaire);
+	fprintf (fp, "%s", &nouvellePersonne.salaire);
+	underscore8(nouvellePersonne.ser-dep);
+	fprintf (fp, "%s", nouvellePersonne.ser_dep);
 
 	fclose(Fichierfiches.txt);
 
@@ -300,6 +314,7 @@ scanf ("%d", &choix);
 
 	printf ("Fiche de renseignement de %s %s", employe.nom, employe.prenom);
 
+	fromunderscoretospace(employe.nom);
 	printf ("Nom : %[^\n]\n", employe.nom);
 	printf ("Prénom : %s\n", employe.prenom);
 	printf ("Ne(e) le %d / %d / %d \n", employe.date_naissance.jour, employe.date_naissance.mois, employe.date_naissance.annee);
@@ -307,23 +322,41 @@ scanf ("%d", &choix);
 	//coordonnées
 	printf ("Coordonnées : \n");
 	printf ("Adresse : ");
+	fromunderscoretospace(employe.contact.numero);
+	fromunderscoretospace(employe.contact.rue);
 	printf ("%s %s\n", employe.contact.numero, employe.contact.rue);
+
+if (nouvellePersonne.contact.complement1 != NULL)
+	{
+	fromunderscoretospace(employe.contact.complement1);
 	printf ("%s\n", employe.contact.complement1); 
+	}
+if (nouvellePersonne.contact.complement2 != NULL)
+	{
+	fromunderscoretospace(employe.contact.complement2);
 	printf ("%s\n", employe.contact.complement2); 
+	}
+	fromunderscoretospace(employe.contact.ville);
 	printf ("%d %s\n", employe.contact.code_postal, employe.contact.ville); 
+	fromunderscoretospace(employe.contact.pays);
 	printf ("%s\n ", employe.contact.pays); 
 	printf ("Adresse mail personnelle : %s\n ", employe.contact.adresse_mail);
 	printf ("Numéro de téléphone personnel : ");
 	scanf ("%d", employe.contact.telephone);
 	printf ("Etat civil : ");
-	scanf ("%[^\n]", employe.etatCivil);
+	fromunderscoretospace(employe.etatCivil);
+	scanf ("%s", employe.etatCivil);
 	
 	//embauche
 	prints ("Numéro employé : %d\n", employe.numeroIdentification);
 	printf ("Date d'entree au sein de l'entreprise : %d / %d / %d \n", employe.date_embauche.jour, employe.date_embauche.mois, employe.date_embauche.annee);
+	fromunderscoretospace(employe.poste);
 	printf ("Poste : %s\n", employe.poste);
+	fromunderscoretospace(employe.grade);
 	printf ("Grade : %s\n", employe.grade);
+	fromunderscoretospace(employe.salaire);
 	printf ("Salaire : %s\n", employe.salaire);
+	fromunderscoretospace(employe.ser_dep);
 	printf ("Service ou département : %s\n", employe.ser_dep);
 	printf ("Adresse mail professionnelle : %s\n", employe.emailpro);
 }
@@ -355,8 +388,10 @@ fclose(f1);
 char adressemail(nom[], prenom[])
 {
 char nom[TAILLE_NOM], prenom[TAILLE_NOM], email[TAILLE_NOM]
-	strcpy(email,prenom)
-	TROUVER COMMENT SUPPRIMER LES ESPACES DUN NOM COMPOSE
+
+	supprespaces(nom);
+	supprespaces(prenom);
+	strcpy(email,prenom);
 	strcat(email,".");
 	strcat(email,nom);
 	strcat(email,"@entreprise.com");
@@ -365,13 +400,14 @@ char nom[TAILLE_NOM], prenom[TAILLE_NOM], email[TAILLE_NOM]
 }
 
 //___________________________________________
-// Procédure pour créer une adresse mail pro 
+// Procédure pour créer un login 
 //___________________________________________
 
 void crealogin()
 {
 char partnom[5], pseudo[7]
-	
+
+	supprespaces(nouvellePersonne.nom)
 	strncpy(partnom, nouvellePersonne.nom, 6); // on garde 6 lettres du nom de famille
 	printf("%s\n", partnom);
 	
