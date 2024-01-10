@@ -110,6 +110,7 @@ char underscore8(char cdc []);
 char fromunderscoretospace(char cdc []);
 void conv_maj(char cdc[]);
 void convmaj1cdc(char cdc[]);
+Void calculsalaires();
 
 
 //________________________________________________________________________________________________
@@ -558,6 +559,62 @@ void convmaj1cdc(char cdc[])
 }
 
 //___________________________________________
-//Procédure pour donner des calculs de salaire
+//Procédure pour donner des calculs de salaire à titre indicatif
 //___________________________________________
+Void calculsalaires()
+{
+	float basehmensu=151.67, sbrut, snet, hmeffectives, coeffnet = 0.77, shbrut, shnet, spbrut, spnet, sabrut, sanet; //coeffnet=0,77 correspond au secteur privé, pour le secteur public passer à 0,85
+	int choix;
+	
+	printf ("Que souhaitez-vous calculer ? Vous devez connaître un salaire brut mensuel à 35h au préalable. Ces calculs sont indicatifs et ne concernent que la France\n");
+	printf ("1 - Salaire mensuel en net\n");
+	printf ("2 - Taux horaire brut et net\n");
+	printf ("3 - Salaire mensuel brut et net pour un mi-temps\n");
+	printf ("4 - Salaire annuel brut et net\n");
+	
+	scanf("%d", &choix);
+	
+	printf ("Entrez le salaire mensuel brut en euros servant de base aux calculs : ");
+	scanf ("%f", &sbrut);
+	
+	//ces calculs servent dans presque tous les cases
+	snet=sbrut*coeffnet; //calcul du salaire mensuel net 
+	shbrut=sbrut/basehmensu; //taux horaire brut
+	shnet=snet/basehmensu; //taux horaire net
+	
+	switch (choix)
+	{
+		case 1 :
+			{
+			printf ("Un salaire brut de %f euros équivaut à un salaire net de %.2f euros\n", sbrut, snet);
+			break;
+			}
+		case 2 :
+			{
+			printf ("Ces calculs correspondent à un temps de travail de 35h par semaine \n");
+			printf ("Taux horaire brut : %.2f euros par heure\nTaux horaire net : %.2f euros par heure\n", shbrut, shnet);
+			break;
+			}
+		case 3 : 
+			{
+			printf ("Saisissez le nombre d'heures effectuées par semaine : ");
+			scanf("%f", &hmeffectives);
+			spbrut=shbrut*hmeffectives*4;
+			spnet=shnet*hmeffectives*4;
+			printf ("Salaire mensuel brut pour un travail de %f heures : %.2f euros\n", hmeffectives, spbrut);
+			printf ("Salaire mensuel net associé : %.2f euros\n", spnet);
+			printf ("Nous rappelons que ces calculs sont indicatifs.\n");
+			break;
+			}
+		case 4 : 
+			{
+			sabrut=sbrut*12;
+			sanet=snet*12;
+			printf ("Salaire brut annuel : %.2f euros\nSalaire net annuel : %.2f euros\n", sabrut, sanet);
+			break;
+			}
+	}
+	
+	
+}
 
