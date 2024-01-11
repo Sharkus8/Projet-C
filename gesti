@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <locale.h>
 
 #define MAX_PERSONNES 100
 #define MAX_CONGES 25
@@ -616,5 +617,35 @@ Void calculsalaires()
 	}
 	
 	
+}
+
+void enregistrerhistorique(char pseudomodif[], element[])
+{
+	char jalontempo[100];
+	struct tm *temps;
+	time_t heureactu;
+	FILE *fh;
+	
+	setlocale(LC_TIME, "fr_FR.UTF-8");//LC_ALL est un paramètre qui met (grace à la fonction setlocale) le paramètre time sur le crénau fr_FR.UTF-8 (c'est à dire français)
+	
+	time(&heureactu);
+	temps= localtime(&heureactu);
+	
+	strftime (jalontempo, 100, "%d/%m/%y %H:%M:%S", temps);
+	
+	fh = fopen("Historiquedesactions.txt", "w");
+	
+	fprintf(Historiquedesactions.txt, "%s a modifie l'element suivant : %s a la date et horaire suivantes : %s ", pseudomodif, element, jalontempo );
+	
+	fclose(Historiquedesactions.txt);
+
+	// pour permettre l'enregistrement d'une modification de fiche :
+	// char elementmodif[100];
+	//strcpy(elementmodif, "fiche");
+	//strcpt(elementmodif, "_");
+	//strcpt(elementmodif, personne.nom);
+	//strcpt(elementmodif, "_");
+	//strcpt(elementmodif, personne.prenom);
+	//enregistrerhistorique(username, elementmodif);
 }
 
