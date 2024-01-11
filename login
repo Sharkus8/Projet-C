@@ -36,10 +36,23 @@ void creation_login
 	
 	
 	//----------------------------------------- créer le mot de passe
+	printf("Vous avez maintenant besoin d'un administrateur pour intervenir sur le mot de passe de cet employe");
+
+	while (((strcmp(numutilisateur,employe.login_emp.username[i]))&&(strcmp(motdepasse,employe.login_emp.motdepasse[i]))!=0))
+	{
+	printf("Entrez votre nom d'utilisateur administrateur : ");
+	scanf ("%s", nomutilisateur);
+	printf ("Entrez votre mot de passe administrateur : ");
+	scanf ("%s", motdepasse);
+	}
+
 	
 	while ((choixauto != 1)&&(choixauto !=2)&&(choixauto!=3))
 	
 	{
+		printf ("Veuillez entrer le mot de passe choisi : ");
+		scanf ("%s", motdepasse);
+		strcpy(employe.login_emp.mdp, motdepasse)
 		printf ("Quel type est le niveau de droit de cet utilisateur ?\n");
 		printf ("1 - Autorisations administrateur (service informatique)\n");
 		printf ("2 - Autorisations ressources humaines (service ressources humaines)\n");
@@ -69,6 +82,7 @@ void creation_login
 		
 		
 	}
+	}
 	
 	
 	
@@ -76,19 +90,28 @@ void creation_login
 
 // ce qui est en fait le menu principal, avec demande du mdp et droits associés
 {
-	int droits;
+	int droits, i, aide;
 	char nomutilisateur[TAILLE_NOM], motdepasse[TAILLE_NOM];
 	
+	i=-1
+	for (i=0, i<Nb_Utilisateur, i++)
+
+	while (((strcmp(numutilisateur,employe.login_emp.username[i]))&&(strcmp(motdepasse,employe.login_emp.motdepasse[i]))!=0)&&(aide!=1))
+	{
 	printf("Entrez votre nom d'utilisateur");
 	scanf ("%s", nomutilisateur);
 	printf ("Entrez votre mot de passe : ");
 	scanf ("%s", motdepasse);
+
+		if ((strcmp(numutilisateur,employe.login_emp.username[i]))&&(strcmp(motdepasse,employe.login_emp.motdepasse[i]))!=0)
+		{ 
+			creermotdepasse();
+		}
 	
-	numtab=recherche(nomutilisateur)
-	droits = employe.login_emp.valdroit[numtab];
+	}
+
+	droits = employe.login_emp.valdroit[i];
 	
-	if ((strcmp(numutilisateur,employe.login_emp.username[numtab]))&&(strcmp(motdepasse,employe.login_emp.motdepasse[numtab]))==0)
-	{
 		switch droits
 		case 1 :
 			{
