@@ -28,6 +28,8 @@ struct Personne {
     int age;
     struct id_login login_emp;
     char emailpro[TAILLE_NOM];
+    struct tm *tempscréa; //AJOUTER DANS LA PROC2DURE DE CREA ET DE MODIFICATION UN PRINTF DU TEMPS 
+    struct tm *tempsmodif;
 };
 
 // Structure pour représenter une demande de congé
