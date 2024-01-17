@@ -1,1 +1,78 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <locale.h>
 
+int main()
+{
+	char jalontempod[100], jalontempof[100], cdcinter[100];
+	struct tm debutcongesR, fincongesR, nbsecdifftt, dateinter;
+	time_t nbsectpsu1, nbsectpsu2, nbsecdiff, nbsecinter;
+	int i, jourd, moisd, anneed, jourf, moisf, anneef, nbdiffd, nb_ajout_secondes=86400, nbwe=0;
+	FILE *fc;
+	
+	//initialiser localtime à l'heure de France métropolitaine
+	setlocale(LC_TIME, "fr_FR.UTF-8");
+	
+	//rentrer les dates de congés
+	printf ("Date de votre premier jour de conges (format jj/mm/aaaa) : ");
+	scanf("%d/%d/%d", &jourd, &moisd, &anneed);
+	printf ("Date de votre dernier jour de conges (format jj/mm/aaaa) : ");
+	scanf ("%d/%d/%d", &jourf, &moisf, &anneef);
+	
+	
+	//transformation au format date
+	debutcongesR.tm_mday=jourd+1;
+	debutcongesR.tm_mon=moisd - 1;
+	debutcongesR.tm_year=anneed - 1900;
+	debutcongesR.tm_hour=0;
+	debutcongesR.tm_min=0;
+	debutcongesR.tm_sec=0;
+
+	
+	fincongesR.tm_mday=jourf+1;
+	fincongesR.tm_mon=moisf - 1;
+	fincongesR.tm_year=anneef - 1900;
+	fincongesR.tm_hour=0;
+	fincongesR.tm_min=0;
+	fincongesR.tm_sec=0;
+
+	//récupération du nb de secondes depuis le 01/01/1970 et jusqu'aux dates entrées
+	nbsectpsu1 = mktime(&debutcongesR);
+	nbsectpsu2 = mktime(&fincongesR);
+	
+	//report de ces nombres de recondes dans les structures de types temps
+	debutcongesR=*localtime(&nbsectpsu1);
+	fincongesR=*localtime(&nbsectpsu2);
+	
+	// impression sur une chaine de caractère, de maximum 100 caractères, de tous les formats de date voulus 
+	strftime (jalontempod, 100, "%d/%m/%y %H:%M:%S %A", &debutcongesR);
+	strftime (jalontempof, 100, "%d/%m/%y %H:%M:%S %A", &fincongesR);
+	
+	printf ("Debut : %s Fin : %s\n", jalontempod, jalontempof);
+	
+	//avoir le nombre de jours entre les dates
+	nbsecdiff= difftime(nbsectpsu2, nbsectpsu1); //affecter le nombre de secondes ecoulées entre la date de début et la date de fin /!\ inverser les dates pour que la soustraction fonctionne	
+	nbsecdifftt=*localtime(&nbsecdiff); //le nom de secondes entre les dates devient une structure time_t
+	nbsecdiffd = nbsecdifftt.tm_yday; //le nombre de jours de la structure time_t précédente est affectée à une variable de type entier
+	printf("Voici le nombre de jours entre ces dates : %d\n", nbdiffd);
+	
+	//boucle qui supprime les dimanches et samedis dans le nombre de jours
+ for (i=0; i<nbdiffd; i++)
+ {
+	nbsecinter=mktime(&debutcongesR); // nombre de secondes écoulées depuis le début du timing en c jusqu'à la date d'entrée en congés
+	
+	nbsecinter+=nb_ajout_secondes*i; //on ajoute l'équivalent d'une journée en secondes : à considérer comme un "+ 1 jour". On multiplie par i, i étant le nombre de "jours qui passent"
+	
+	dateinter=*localtime(&nbsecinter); //ce nombre total de secondes est 
+	
+	strftime (cdcinter, 100, "%A", &dateinter); //la chaine de caractère prend seulement le nom en anglais du jour (de Monday lundi à Sunday dimanche)
+	
+	if((strcmp(cdcinter, "Sunday")==0)||(strcmp(cdcinter, "Saturday")==0)) // si vous comptez en jours ouvrés, supprimez "||(strcmp(cdcinter, "Saturday")==0)" et veillez à ce que toutes les parenthèses se ferment 
+	{
+		nbwe++; //pour chaque jour de week-end, le total des jours de week-ends augmente de 1
+	}
+}
+	printf ("Nombre de jours week-end : %d\n", nbwe);
+	
+}
