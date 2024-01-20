@@ -1,0 +1,58 @@
+// Fonction pour changer l'état civil et le nom
+void modifierEtatCivilNom() {
+    char nouvelEtatCivil[100];
+    char nouveauNom[100];
+    int numeroPersonnel;
+
+    printf("Entrez le nouvel état civil : ");
+    scanf("%s", nouvelEtatCivil);
+    printf("Entrez le nouveau nom : ");
+    scanf("%s", nouveauNom);
+
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (employes[i].numeroIdentification == numeroPersonnel) {
+            // Mettre à jour l'état civil et le nom
+            strcpy(employes[i].etatCivil, nouvelEtatCivil);
+            strcpy(employes[i].nom, nouveauNom);
+
+            // Enregistrer la date de la dernière modification
+            time(&employes[i].dateDerniereModification);
+
+            printf("Informations mises à jour avec succès. Date de la dernière modification : %s", ctime(&employes[i].dateDerniereModification));
+            return;
+        }
+    }
+
+    printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroPersonnel);
+}
+
+// Fonction pour modifier les coordonnées
+void modifierCoordonnees() {
+    char nouvelleAdresse[100];
+    int numeroPersonnel;
+
+    printf("Entrez la nouvelle adresse : ");
+    scanf("%s", nouvelleAdresse);
+    printf("Entrez la nouvelle adresse : ");
+    scanf("%s", nouvelleAdresse);
+    printf("Entrez la nouvelle adresse : ");
+    scanf("%s", nouvelleAdresse);
+
+
+
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (employes[i].numeroIdentification == numeroPersonnel) {
+            // Mettre à jour l'adresse
+            strcpy(employes[i].adresse, nouvelleAdresse);
+            strcpy(employes[i].adresse, nouvelleAdresse);
+
+            // Enregistrer la date de la dernière modification
+            time(&employes[i].dateDerniereModification);
+
+            printf("Coordonnées mises à jour avec succès. Date de la dernière modification : %s", ctime(&employes[i].dateDerniereModification));
+            return;
+        }
+    }
+
+    printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroPersonnel);
+}
