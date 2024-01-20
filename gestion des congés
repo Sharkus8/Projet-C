@@ -3,45 +3,73 @@
 #include <time.h>
 #include <locale.h>
 
+struct conges
+	{
+		int jourd;
+		int moisd;
+		int anneed;
+		int jourf;
+		int moisf;
+		int anneef;
+		int nbjourdecompte;
+		int numemp;
+		char nom;
+		char prenom;
+	};
+
+struct conges tabcongesd[500];
+int nbdemandesconges=0;
+
+
+
+int datepaques(int a);
+int dateascension(int dpaques);
+void enregistrerdemande();
+void validerdemandesconges (num, jourd, moisd, anneed, jourf, moisf, anneef, nbjr);
+void chargerdemandesconges();
+void afficherdemandesconges();
+
 int main()
 {
-	char jalontempod[100], jalontempof[100], cdcinter[100];
+	//déclaration pour les dates de congés et les week ends
+	char jalontempod[100], jalontempof[100], cdcinter[100], cdcjourmois[100];
 	struct tm debutcongesR, fincongesR, nbsecdifftt, dateinter;
 	time_t nbsectpsu1, nbsectpsu2, nbsecdiff, nbsecinter;
-	int i, jourd, moisd, anneed, jourf, moisf, anneef, nbdiffd, nb_ajout_secondes=86400, nbwe=0;
-	FILE *fc;
+	int i, choix, nbdiffd, nb_ajout_secondes=86400, nbwe=0, nbfer=0, paques=0, paques1, paques2, dated, datef, dateint, ascen1, ascen2, ascen;
+	struct conges demandeconges;
 	
 	//initialiser localtime à l'heure de France métropolitaine
-	setlocale(LC_TIME, "fr_FR.UTF-8");
+	//setlocale(LC_TIME, " ");
 	
 	//rentrer les dates de congés
 	printf ("Date de votre premier jour de conges (format jj/mm/aaaa) : ");
-	scanf("%d/%d/%d", &jourd, &moisd, &anneed);
+	scanf("%d/%d/%d", &demandeconges.jourd, &demandeconges.moisd, &demandeconges.anneed);
 	printf ("Date de votre dernier jour de conges (format jj/mm/aaaa) : ");
-	scanf ("%d/%d/%d", &jourf, &moisf, &anneef);
+	scanf ("%d/%d/%d", &demandeconges.jourf, &demandeconges.moisf, &demandeconges.anneef);
 	
 	
 	//transformation au format date
-	debutcongesR.tm_mday=jourd+1;
-	debutcongesR.tm_mon=moisd - 1;
-	debutcongesR.tm_year=anneed - 1900;
+	debutcongesR.tm_mday=demandeconges.jourd+1;
+	debutcongesR.tm_mon=demandeconges.moisd - 1;
+	debutcongesR.tm_year=demandeconges.anneed - 1900;
 	debutcongesR.tm_hour=0;
 	debutcongesR.tm_min=0;
 	debutcongesR.tm_sec=0;
 
 	
-	fincongesR.tm_mday=jourf+1;
-	fincongesR.tm_mon=moisf - 1;
-	fincongesR.tm_year=anneef - 1900;
+	fincongesR.tm_mday=demandeconges.jourf+1;
+	fincongesR.tm_mon=demandeconges.moisf - 1;
+	fincongesR.tm_year=demandeconges.anneef - 1900;
 	fincongesR.tm_hour=0;
 	fincongesR.tm_min=0;
 	fincongesR.tm_sec=0;
 
 	//récupération du nb de secondes depuis le 01/01/1970 et jusqu'aux dates entrées
-	nbsectpsu1 = mktime(&debutcongesR);
-	nbsectpsu2 = mktime(&fincongesR);
+	nbsectpsu1 = mktime(&debutcongesR)-82800;
+	nbsectpsu2 = mktime(&fincongesR)-1;
 	
-	//report de ces nombres de recondes dans les structures de types temps
+	
+	//report de ces nombres de recondes dans les structures de type temps
 	debutcongesR=*localtime(&nbsectpsu1);
 	fincongesR=*localtime(&nbsectpsu2);
 	
@@ -54,13 +82,35 @@ int main()
 	//avoir le nombre de jours entre les dates
 	nbsecdiff= difftime(nbsectpsu2, nbsectpsu1); //affecter le nombre de secondes ecoulées entre la date de début et la date de fin /!\ inverser les dates pour que la soustraction fonctionne	
 	nbsecdifftt=*localtime(&nbsecdiff); //le nom de secondes entre les dates devient une structure time_t
-	nbsecdiffd = nbsecdifftt.tm_yday; //le nombre de jours de la structure time_t précédente est affectée à une variable de type entier
+	nbdiffd = nbsecdifftt.tm_yday; //le nombre de jours de la structure time_t précédente est affectée à une variable de type entier
 	printf("Voici le nombre de jours entre ces dates : %d\n", nbdiffd);
 	
-	//boucle qui supprime les dimanches et samedis dans le nombre de jours
+if (nbdiffd > 365)
+	{
+		printf ("Vous demandez plus d'un an de conges. Merci de vous rapprocher de votre service de ressources humaines pour en faire la demande.");
+		
+	}
+
+else
+{
+
+	
+	dated = demandeconges.anneed*10000+demandeconges.moisd*100+demandeconges.jourd; //ce calcul permet de donner la date sous forme d'entier tel que aaaammjj
+	datef = demandeconges.anneef*10000+demandeconges.moisf*100+demandeconges.jourf;
+	
+	//trouver les dates de paques et de l'ascension 
+	paques1 = datepaques(demandeconges.anneed);
+	paques2 = datepaques(demandeconges.anneef);
+	
+	ascen1 = dateascension(paques1);
+	ascen2 = dateascension(paques2);
+	
+
+	
+	//boucle qui compte les dimanches et samedis dans l'intervalle des deux dates
  for (i=0; i<nbdiffd; i++)
  {
-	nbsecinter=mktime(&debutcongesR); // nombre de secondes écoulées depuis le début du timing en c jusqu'à la date d'entrée en congés
+	nbsecinter=mktime(&debutcongesR)-82800; // nombre de secondes écoulées depuis le début du timing en c jusqu'à la date d'entrée en congés
 	
 	nbsecinter+=nb_ajout_secondes*i; //on ajoute l'équivalent d'une journée en secondes : à considérer comme un "+ 1 jour". On multiplie par i, i étant le nombre de "jours qui passent"
 	
@@ -68,11 +118,235 @@ int main()
 	
 	strftime (cdcinter, 100, "%A", &dateinter); //la chaine de caractère prend seulement le nom en anglais du jour (de Monday lundi à Sunday dimanche)
 	
-	if((strcmp(cdcinter, "Sunday")==0)||(strcmp(cdcinter, "Saturday")==0)) // si vous comptez en jours ouvrés, supprimez "||(strcmp(cdcinter, "Saturday")==0)" et veillez à ce que toutes les parenthèses se ferment 
+	strftime (cdcjourmois, 100, "%d/%m", &dateinter);
+	
+
+
+if((strcmp(cdcinter, "Saturday")==0)||(strcmp(cdcinter, "Sunday")==0)) // si vous comptez en jours ouvrés, supprimez "||(strcmp(cdcinter, "Saturday")==0)" et veillez à ce que toutes les parenthèses se ferment 
 	{
 		nbwe++; //pour chaque jour de week-end, le total des jours de week-ends augmente de 1
+		
+		// if qui permet de décrémenter des jours fériés à la variable nbfer s'il s'agit d'un samedi ou d'un dimanche
+		if((strcmp(cdcjourmois, "01/01")==0)||(strcmp(cdcjourmois, "01/05")==0)||(strcmp(cdcjourmois, "08/05")==0)||(strcmp(cdcjourmois, "14/07")==0)||(strcmp(cdcjourmois, "15/08")==0)||(strcmp(cdcjourmois, "01/11")==0)||(strcmp(cdcjourmois, "11/11")==0)||(strcmp(cdcjourmois, "25/12")==0))
+		{
+			nbfer--;
+
+		}
+	}
+	
+	if ((strcmp(cdcjourmois, "01/01")==0)||(strcmp(cdcjourmois, "01/05")==0)||(strcmp(cdcjourmois, "08/05")==0)||(strcmp(cdcjourmois, "14/07")==0)||(strcmp(cdcjourmois, "15/08")==0)||(strcmp(cdcjourmois, "01/11")==0)||(strcmp(cdcjourmois, "11/11")==0)||(strcmp(cdcjourmois, "25/12")==0))
+	{
+		nbfer++;
+
+	} 
+	
+
+ }
+ 
+ 
+if ((paques1 > dated )&&(paques1<datef)||(paques2 > dated )&&(paques2<datef))
+	{
+		nbfer++;
+	}	 	
+	 
+
+if ((ascen1 > dated )&&(ascen1<datef)||(ascen2 > dated )&&(ascen2<datef))
+	{
+		nbfer++;
+	}
+ 
+	printf ("Nombre de jours week-end : %d\n", nbwe);
+	printf ("Nombre de jours feries hors week-end : %d\n", nbfer);
+	
+	demandeconges.nbjourdecompte = nbdiffd - nbfer - nbwe;
+
+	printf ("Vous avez demande des conges du %d/%d/%d au %d/%d/%d\n", demandeconges.jourd, demandeconges.moisd, demandeconges.anneed, demandeconges.jourf, demandeconges.moisf, demandeconges.anneef);
+	printf ("Cela équivaut à %d jours de conges décomptes de votre compteur", demandeconges.nbjourdecompte);
+
+	printf ("Validez-vous ces informations ? 1 - Oui / 2 - Non");
+	scanf ("%d", choix);
+	
+	i=0;
+	
+	if (choix ==1)
+	{
+		printf ("Votre demande est transmise au ressources humaines. Reconnectez-vous plus tard ou contactez les ressources humaines de votre entreprise pour savaoir si votre demande a été traitée. En cas de changement, merci de contacter directement les ressources humaines de votre entreprise.");
+		tabcongesd[i]=demandeconges;
+		enregistrerdemande();
+		i++;
+		nbdemandesconges++;	
+	}
+	
+	else 
+	{
+		printf ("Votre demande est annulee.");
+	}
+
+}
+	
+}
+
+int datepaques (int a)
+{
+	int u=0, n=0, c=0, s=0, t=0, p=0, q=0, e=0, b=0, d=0, L=0, h=0, m=0, j=0, datepaq;
+	
+	
+	n = a%19;
+	u = a%100;
+	c = a/100;
+	s = c/4;
+	t = c%4;
+	p = (c+8)/25;
+	q = (c-p+1)/3;
+	e = (19*n+c-s-q+15)%30;
+	b = u/4;
+	d = u%4;
+	L = (2*t+2*b-e-d+32)%7;
+	h = (n+11*e+22*L)/451;
+	m = (e+L-7*h+114)/31;
+	j = (e+L-7*h+114)%31;
+	
+	j++;
+	
+		if (j==31)
+	{
+		j=01;
+		m++;
+	}
+	else
+	{
+		j++;
+	} 
+
+	datepaq=a*10000+m*100+j;
+	
+	return datepaq;
+	
+}
+
+int dateascension(int dpaques)
+{
+	int annee, mois, jour, moisjour, moisa, joura, dascen;
+	
+	annee=dpaques/10000;
+	mois=(dpaques-(annee*10000))/100;
+	jour=dpaques-annee*10000-mois*100;
+	
+	moisjour = mois*100+jour;
+	
+	if(moisjour == 323)
+	{
+		joura=jour+7;
+		moisa=mois+1;	
+	}
+	else if ((moisjour>322)&&(moisjour<400)) //pour 0331
+	{
+		joura=jour-23;
+		moisa=5;
+	}
+	else if ((moisjour>331)&&(moisjour<424))
+	{
+		joura=jour+8;
+		moisa=5;
+	}
+	else if ((moisjour>423)&&(moisjour<427))
+	{
+		joura=jour-23;
+		moisa=6;
+	}
+	
+	dascen=annee*10000+moisa*100+joura;
+	
+	return dascen;
+}
+
+void enregistrerdemande()
+
+{
+	struct conges demande;
+	int i;
+	FILE *fc;
+	
+	fc = fopen("demandeconge.txt", "w");
+	
+	for (i=0; i<nbdemandesconges; i++)
+	
+	{
+		demande = tabcongesd[i];
+		
+		fprintf (fc, "%s %s %d", demande.nom, demande.prenom, demande.numemp);
+		fprintf (fc, "%d/%d/%d-%d/%d/%d", demande.jourd, demande.moisd, demande.anneed, demande.jourf, demande.moisf, demande.anneef);
+		fprintf (fc, "%d", demande.nbjourdecompte);
+	}
+	
+	fclose(fc); 
+	
+}
+
+void chargerdemandesconges()
+{
+	struct conges dconges ;
+	int i;
+	FILE *fc;
+	
+	fc = fopen("demandeconge.txt", "r");
+	
+	while (fscanf(fc, "%d %d %d %d %d %d %d %d %s %s",&dconges.numemp, &dconges.jourd, &dconges.moisd, &dconges.anneed, &dconges.jourf, &dconges.moisf, &dconges.anneef, &dconges.nbjourdecompte, &dconges.nom, &dconges.prenom)!=EOF)
+	{
+		tabcongesd[i++]=dconges;
+	}
+	fclose(fc);
+	
+}
+
+void afficherdemandesconges()
+{
+	int i;
+	struct conges dconges;
+	
+	if (nbdemandesconges==0)
+	{
+		printf ("Aucune demande de conges en cours");
+	}
+	
+	else
+	{
+		for (i=0; i<nbdemandesconges; i++)
+		{
+			printf ("%-10s %-20s %4s %8s %12s\n", "Nom", "Prenom", "Date de depart", "Date de retour", "Nombre de jours");
+			dconges=tabcongesd[i];
+			printf ("%-10s %-20s %4d/%5d/%6d %8d/%9d/%10d %12d\n", dconges.nom, dconges.prenom, dconges.jourd, dconges.moisd, dconges.anneed, dconges.jourf, dconges.moisf, dconges.anneef, dconges.nbjourdecompte);
+			validerdemandesconges(dconges.numemp, dconges.jourd, dconges.moisd, dconges.anneed, dconges.jourf, dconges.moisf, dconges.anneef, dconges.nbjourdecompte);
+		}
 	}
 }
-	printf ("Nombre de jours week-end : %d\n", nbwe);
+	
+void validerdemandesconges (num, jourd, moisd, anneed, jourf, moisf, anneef, nbjr)
+{
+	int choix=-1, numero;
+	
+while ((choix!=1)||(choix!=2))
+	printf("Validez-vous cette demande ?\n 1 - Oui\n 2 - Non\n");
+	scanf("%d", &choix);
+	
+	if (choix==1)
+	{
+		numero=recherchenum();
+		employes[i].conges.jourd = jourd;
+		employes[i].conges.moisd = moisd;
+		employes[i].conges.anneed = anneed;
+		employes[i].conges.jourf = jourf;
+		employes[i].conges.moisf = moisf;
+		employes[i].conges.anneef = anneef;
+		employes[i].conges.nbjourdecompte = nbjr;
+		
+		suppr(tabconges[i]);
+		
+	}
+	else if (choix==2)
+	{
+		printf ("Vous avez refuse cette demande de conges. N'hesitez pas a envoyer un mail a la personne concernee pour lui en faire part");
+		suppr(tabconges[i]);
+	}
 	
 }
