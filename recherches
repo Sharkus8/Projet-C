@@ -1,0 +1,72 @@
+void rechercherParNomPrenom()
+ {
+    char nomRecherche[100], char prenomRecherche[100];
+    int trouve = 0;
+
+    printf("Entrez le nom de l'employé à rechercher : ");
+    scanf("%s", nomRecherche);
+    printf("Entrez le prénom de l'employé à rechercher : ");
+    scanf("%s", prenomRecherche);
+
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (strcmp(employes[i].nom, nomRecherche) == 0 && strcmp(employes[i].prenom, prenomRecherche) == 0) {
+            // Nom et prénom trouvés, afficher les informations
+            trouve = 1;
+            printf("Nom : %s\n", employes[i].nom);
+            printf("Prénom : %s\n", employes[i].prenom);
+            printf("Numéro d'identification : %d\n", employes[i].numeroIdentification);
+            // on ajoute quoi d'autres ? soldes de conges ?
+            break; // arreter la boucle 
+        }
+    }
+
+    if (!trouve) {
+        printf("Aucun employé trouvé avec le nom %s et le prénom %s.\n", nomRecherche, prenomRecherche);
+    }
+}
+
+
+void rechercherParUsername() 
+{
+
+    int trouve = 0;
+    char usernameRecherche[100];
+
+    printf("Entrez le username de l'employé à rechercher : ");
+    scanf("%s", usernameRecherche);
+
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (strcmp(employes[i].username, usernameRecherche) == 0) {
+            // Username trouvé, afficher les informations
+            trouve = 1;
+            printf("Nom : %s\n", employes[i].nom);
+            printf("Prénom : %s\n", employes[i].prenom);
+            printf("Numéro d'identification : %d\n", employes[i].numeroIdentification);
+            break;
+        }
+    }
+
+    if (!trouve) {
+        printf("Aucun employé trouvé avec le username %s.\n", usernameRecherche);
+    }
+}
+
+void rechercherParNumeroIdentification() {
+    int trouve = 0;
+    int numeroRecherche
+
+    printf("Entrez le numéro d'identification de l'employé à rechercher : ");
+    scanf("%d", &numeroRecherche);
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (employes[i].numeroIdentification == numeroRecherche) {
+            // Numéro d'identification trouvé, afficher les informations
+            trouve = 1;
+            afficherInformationsEmploye(&employes[i]);
+            break; // Sortir de la boucle une fois le numéro d'identification trouvé
+        }
+    }
+
+    if (!trouve) {
+        printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroRecherche);
+    }
+}
