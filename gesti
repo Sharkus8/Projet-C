@@ -114,15 +114,29 @@ char fromunderscoretospace(char cdc []);
 void conv_maj(char cdc[]);
 void convmaj1cdc(char cdc[]);
 Void calculsalaires();
-
+void modifierEtatCivilNom();
+void modifierCoordonnees();
+void rechercherParUsername(char cdc[]);
+void rechercherParNumeroIdentification();
+void supprimerFichePersonne();
 
 //________________________________________________________________________________________________
 ---------------------------------MAIN MENU PRINCIPAL---------------------------------------------
 //________________________________________________________________________________________________
 
 
+//___________________________________________
+// Fonction pour générer automatiquement une adresse e-mail
+//___________________________________________
 
+void genererAdresseEmail(char *prenom, char *nom, char *adresseEmail) {
+    // Convertir le prénom et le nom en minuscules
+    strlwr(prenom);
+    strlwr(nom);
 
+    // Copier le prénom et le nom dans l'adresse e-mail avec le format spécifié
+    sprintf(adresseEmail, "%s.%s@%s", prenom, nom, NOM_ENTREPRISE);
+}
 
 //___________________________________________
 // fonction pour saisir une fiche de personne
