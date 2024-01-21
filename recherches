@@ -1,6 +1,5 @@
-void rechercherParNomPrenom()
+void rechercherParNomPrenom(char nomRecherche[100], char prenomRecherche[100])
  {
-    char nomRecherche[100], char prenomRecherche[100];
     int trouve = 0;
 
     printf("Entrez le nom de l'employé à rechercher : ");
@@ -26,11 +25,11 @@ void rechercherParNomPrenom()
 }
 
 
-void rechercherParUsername() 
+void rechercherParUsername(char usernameRecherche[100]) 
 {
 
     int trouve = 0;
-    char usernameRecherche[100];
+   
 
     printf("Entrez le username de l'employé à rechercher : ");
     scanf("%s", usernameRecherche);
@@ -52,8 +51,7 @@ void rechercherParUsername()
 }
 
 void rechercherParNumeroIdentification() {
-    int trouve = 0;
-    int numeroRecherche
+    int numeroRecherche;
 
     printf("Entrez le numéro d'identification de l'employé à rechercher : ");
     scanf("%d", &numeroRecherche);
@@ -61,7 +59,9 @@ void rechercherParNumeroIdentification() {
         if (employes[i].numeroIdentification == numeroRecherche) {
             // Numéro d'identification trouvé, afficher les informations
             trouve = 1;
-            afficherInformationsEmploye(&employes[i]);
+            printf("Nom : %s\n", employes[i].nom);
+            printf("Prénom : %s\n", employes[i].prenom);
+            printf("Numéro d'identification : %d\n", employes[i].numeroIdentification);
             break; // Sortir de la boucle une fois le numéro d'identification trouvé
         }
     }
