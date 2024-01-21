@@ -1,8 +1,7 @@
 // Fonction pour changer l'état civil et le nom
-void modifierEtatCivilNom() {
-    char nouvelEtatCivil[100];
-    char nouveauNom[100];
-    int numeroPersonnel;
+void modifierEtatCivilNom(int numeroPersonnel)
+char nouvelEtatCivil[100];
+char nouveauNom[100];
 
     printf("Entrez le nouvel état civil : ");
     scanf("%s", nouvelEtatCivil);
@@ -27,13 +26,13 @@ void modifierEtatCivilNom() {
 }
 
 // Fonction pour modifier les coordonnées
-void modifierCoordonnees() {
+void modifierCoordonnees(int numeroPersonnel) {
     char nouvelleAdresse[100];
-    int numeroPersonnel;
+   
 
     printf("Entrez la nouvelle adresse : ");
     scanf("%s", nouvelleAdresse);
-    printf("Entrez la nouvelle adresse : ");
+    printf("Entrez la nouvelle adresse : "); // est ce que j'utilise les elements de la structure coordoonées .? 
     scanf("%s", nouvelleAdresse);
     printf("Entrez la nouvelle adresse : ");
     scanf("%s", nouvelleAdresse);
