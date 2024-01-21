@@ -1,0 +1,23 @@
+// Fonction pour supprimer une fiche de personne par numéro d'identification
+void supprimerFichePersonne() {
+    int numeroSuppression;
+
+    printf("Entrez le numéro d'identification de l'employé à supprimer : ");
+    scanf("%d", &numeroSuppression);
+
+    for (int i = 0; i < nombreEmployes; i++) {
+        if (employes[i].numeroIdentification == numeroSuppression) {
+            // Supprimer la fiche de personne
+            for (int j = i; j < nombreEmployes - 1; j++) {
+                employes[j] = employes[j + 1];
+            }
+            nombreEmployes--;
+
+            printf("Fiche supprimée avec succès.\n");
+
+            return;
+        }
+    }
+
+    printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroSuppression);
+}
