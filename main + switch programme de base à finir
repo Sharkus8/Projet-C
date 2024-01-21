@@ -1,0 +1,16 @@
+int main() {
+    int choix;
+
+    do {
+        // Afficher le menu
+        printf("\nMenu principal :\n");
+        printf("1. Créer une fiche de personne\n");
+        printf("2. Rechercher une personne par numéro d'identification\n");
+        printf("3. Modifier les informations d'une personne\n");
+        printf("4. Supprimer une personne par numéro d'identification\n");
+        // est ce qu'on ajoute les soldes des conges ici ? 
+        printf("0. Quitter\n");
+
+        // Lire le choix 
+        printf("Choix : ");
+        scanf("%d", &choix);
