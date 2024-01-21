@@ -1,7 +1,7 @@
 int main() {
     int choix;
 
-    do {
+    {
         // Afficher le menu
         printf("\nMenu principal :\n");
         printf("1. Créer une fiche de personne\n");
