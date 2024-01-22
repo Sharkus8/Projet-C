@@ -1,0 +1,488 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <time.h>
+#include <locale.h>
+
+#define MAX_PERSONNES 100
+#define MAX_CONGES 25
+#define MAX_UTILISATEURS 10
+#define TAILLE_NOM 50
+#define TAILLE_MOT 20
+#define TAILLE_POSTE 100
+#define NON_TROUVE -1
+
+// Structure pour représenter une personne
+struct Personne 
+{
+    int numeroIdentification;
+    char nom[TAILLE_NOM];
+    char prenom[TAILLE_NOM];
+    //date naissance
+		int journ;
+		int moisn;
+		int anneen;
+    //coordonnees
+		char numeror[TAILLE_NOM]; //numéro est de type char pour permettre l'écriture d'un "bis" et autres particularités de ce type
+		char rue[TAILLE_NOM];
+		char complement1[TAILLE_NOM];
+		char complement2[TAILLE_NOM];
+		int code_postal;
+		char ville[TAILLE_NOM];
+		char pays[TAILLE_NOM];
+		char adresse_mailp[TAILLE_NOM];
+		int telephonep;
+    char etatCivil[20];
+    //date embauche
+		int joure;
+		int moise;
+		int anneee;
+    char poste[TAILLE_POSTE];
+    char grade[TAILLE_MOT];
+    char salaire[TAILLE_MOT];
+    char ser_dep[TAILLE_MOT];
+    int age;
+ 	//login
+		char username[TAILLE_MOT];
+		char motdepasse[TAILLE_MOT];
+		int valdroits;
+    char emailpro[TAILLE_POSTE];
+    int nbconges;
+    //dates congés
+    	//début
+		int jourd;
+		int moisd;
+		int anneed;
+		//fin
+		int jourf;
+		int moisf;
+		int anneef;
+    struct tm *tempscrea; //AJOUTER DANS LA PROC2DURE DE CREA ET DE MODIFICATION UN PRINTF DU TEMPS 
+    struct tm *tempsmodif;
+};
+
+
+//strcuture de fiche de poste pour avoir des fiches de postes unifiées
+struct ficheposte
+{
+	char nomposte[TAILLE_MOT];
+	char salairedebutposte[TAILLE_MOT];
+	char diplome[TAILLE_MOT];
+	char gradeposte[TAILLE_MOT];
+};
+
+//structure de conges
+struct conges
+{
+	int jourd;
+	int moisd;
+	int anneed;
+	int jourf;
+	int moisf;
+	int anneef;
+	int nbjourdecompte; //le nombre de jours que cela prendrait sur les congés annuels de la personne
+	int numemp;
+	char nom;
+	char prenom;
+};
+
+//---------------------- Variables globales --------------------
+// Liste des personnes
+struct Personne personnes[MAX_PERSONNES];
+int nombrePersonnes = 0;
+
+// Liste des demandes de congé
+struct conges tabcongesd[500];
+int nbdemandesconges=0;
+
+//pour le numéro des pseudos
+int numpseudo=0;
+
+
+//_________________________ déclaration des procédures et fonctions _______________________________
+void saisie();
+void afficherfiche();
+void creerFichepersonne();
+void adressemail(char nom[], char prenom[]);
+void crealogin();
+void chargementfichier();
+void supprespaces(char cdc[]);
+void underscore8(char cdc []);
+void fromunderscoretospace(char cdc []);
+void conv_maj(char cdc[]);
+void convmaj1cdc(char cdc[]);
+void calculsalaires();
+int rechercherParUsername(char usernameRecherche[]);
+int rechercherParNum(int numRecherche);
+
+//procédures ayant trait à la demande de congés
+int datepaques(int a);
+int dateascension(int dpaques);
+void enregistrerdemande();
+void validerdemandesconges (int num, int jourd, int moisd, int anneed, int jourf, int moisf, int anneef, int nbjr);
+void chargerdemandesconges();
+void afficherdemandesconges();
+
+//________________________________________________________________________________________________
+//---------------------------------MAIN MENU PRINCIPAL---------------------------------------------
+//________________________________________________________________________________________________
+
+int main ()
+{
+	int choix=-1;
+	
+	while (choix !=0)
+	{
+		printf ("Que souhaitez-vous faire ?\n");
+		printf ("1 - Saisir une nouvelle fiche de renseignement\n");
+		printf ("2 - Afficher la fiche d'une personne\n");
+		printf ("0 - Quitter le logiciel \n");
+		scanf("%d", &choix);
+		
+		switch (choix)
+		{
+			case 1 : saisie();
+				break;
+			case 2 : afficherfiche();
+				break;
+		/*	case 3 : 
+				break; */
+		}
+	}
+}
+
+
+
+//___________________________________________
+// fonction pour saisir une fiche de personne
+//___________________________________________
+void saisie() 
+{
+struct Personne nouvellePersonne;
+
+
+printf("Vous allez remplir une nouvelle fiche d'information. \n");
+	
+	// infos basiques
+	printf ("Nom : \n");
+	scanf ("%[^\n]\n", nouvellePersonne.nom); //%[^/n] permet de lire les espaces d'une cdc, et n'arrête celle-ci qu'à "\n"
+	printf ("Prénom : \n");
+	scanf ("%[^\n]", nouvellePersonne.prenom);
+	printf ("Date de naissance (format jj/mm/aaaa) : \n");
+	scanf ("%d/%d/%d", &nouvellePersonne.journ, &nouvellePersonne.moisn, &nouvellePersonne.anneen);
+	
+	
+	//coordonnées
+	printf ("Coordonnées : \n");
+	printf ("Adresse : \n");
+	printf ("Numéro de rue : \n");
+	scanf ("%[^\n]", nouvellePersonne.numeror); //le numéro de rue est en cdc pour permettre l'adjonction d'un "bis"
+	printf ("Nom de rue (précisez 'rue', 'boulevard' ou tout autre indicatif): \n");
+	scanf ("%[^\n]", nouvellePersonne.rue);
+	printf ("Complément d'adresse 1 : \n");
+	scanf ("%[^\n]", nouvellePersonne.complement1);
+	printf ("Complément d'adresse 2 : \n");
+	scanf ("%[^\n]", nouvellePersonne.complement2); 
+	scanf ("%d", &nouvellePersonne.code_postal);
+	printf ("Ville : \n");
+	scanf ("%[^\n]", nouvellePersonne.ville); 
+	printf ("Pays : ");
+	scanf ("%[^\n]", nouvellePersonne.pays); 
+	printf ("Adresse mail personnelle : \n");
+	scanf ("%s", nouvellePersonne.adresse_mailp);
+	printf ("Numéro de téléphone personnel : \n");
+	scanf ("%d", &nouvellePersonne.telephonep);
+	printf ("Etat civil : \n");
+	scanf ("%[^\n]", nouvellePersonne.etatCivil);
+	
+	//embauche
+	printf ("JDate d'embauche (format jj/mm/aaaa) : ");
+	scanf ("%d/%d/%d", &nouvellePersonne.joure, &nouvellePersonne.moise, &nouvellePersonne.anneee);
+	printf ("Poste : ");
+	scanf ("%[^\n]", nouvellePersonne.poste);
+	printf ("Grade : ");
+	scanf ("%[^\n]", nouvellePersonne.grade);
+	printf ("Salaire (précisez la devise): "); //comme pour le numéro de rue, la cdc permet de préciser la devise
+	scanf ("%[^\n]", nouvellePersonne.salaire);
+	printf ("Service ou département : "); 
+	scanf ("%[^\n]", nouvellePersonne.ser_dep);
+
+	//email et login
+//	strcpy(nouvellePersonne.emailpro, adressemail(nouvellePersonne.nom,nouvellePersonne.prenom));
+//	crealogin(nouvellePersonne);
+
+
+	//on ajoute ce remplissage au tableau personnes
+	personnes[nombrePersonnes++]=nouvellePersonne;
+	
+}
+
+//___________________________________________
+// Fonction pour afficher une fiche
+//___________________________________________
+
+void afficherfiche()
+{
+int i, num, choix = -1, numtab;
+char nom[TAILLE_NOM];
+struct Personne employe;
+
+while (choix !=0)
+
+{
+printf ("Souhaitez vous rechercher une personne par son numéro d'identification (tapez 1) ou par son nom de famille (tapez 2) ? Pour quitter ce module, tapez 0");
+scanf ("%d", &choix);
+
+	switch (choix)
+	{
+		case 1:
+		{
+			printf ("Entrez le numéro : ");
+			scanf ("%d", &num);
+			numtab = rechercherParNum(num);
+			break;
+		}
+	}
+
+//		case 2:
+//	{
+	//		printf ("Entrez le nom de famille : ");
+		//	scanf ("%[^\n]", nom);
+		//	numtab = recherche(nom);
+		//	break;
+		//} 
+}
+
+	personnes[numtab]=employe;
+
+	printf ("Fiche de renseignement de %s %s", employe.nom, employe.prenom);
+
+	//fromunderscoretospace(employe.nom);
+	printf ("Nom : %[^\n]\n", employe.nom);
+	printf ("Prénom : %s\n", employe.prenom);
+	printf ("Ne(e) le %d / %d / %d \n", employe.journ, employe.moisn, employe.anneen);
+	
+	//coordonnées
+	printf ("Coordonnées : \n");
+	printf ("Adresse : ");
+	//fromunderscoretospace(employe.numeror);
+	//fromunderscoretospace(employe.rue);
+	printf ("%s %s\n", employe.numeror, employe.rue);
+
+if (strcmp (employe.complement1, "\n") != 0)
+	{
+	//fromunderscoretospace(employe.complement1);
+	printf ("%s\n", employe.complement1); 
+	}
+if (strcmp (employe.complement2, "\n") != 0)
+	{
+	//fromunderscoretospace(employe.complement2);
+	printf ("%s\n", employe.complement2); 
+	}
+	//fromunderscoretospace(employe.ville);
+	printf ("%d %s\n", employe.code_postal, employe.ville); 
+	//fromunderscoretospace(employe.pays);
+	printf ("%s\n ", employe.pays); 
+	printf ("Adresse mail personnelle : %s\n ", employe.adresse_mailp);
+	printf ("Numéro de téléphone personnel : ");
+	scanf ("%d", employe.telephonep);
+	printf ("Etat civil : ");
+	//fromunderscoretospace(employe.etatCivil);
+	scanf ("%s", employe.etatCivil);
+	
+	//embauche
+	printf ("Numéro employé : %d\n", employe.numeroIdentification);
+	printf ("Date d'entree au sein de l'entreprise : %d / %d / %d \n", employe.joure, employe.moise, employe.anneee);
+	//fromunderscoretospace(employe.poste);
+	printf ("Poste : %s\n", employe.poste);
+	//fromunderscoretospace(employe.grade);
+	printf ("Grade : %s\n", employe.grade);
+	//fromunderscoretospace(employe.salaire);
+	printf ("Salaire : %s\n", employe.salaire);
+	//fromunderscoretospace(employe.ser_dep);
+	printf ("Service ou département : %s\n", employe.ser_dep);
+	printf ("Adresse mail professionnelle : %s\n", employe.emailpro);
+}
+
+
+
+
+//___________________________________________
+// procédure pour la création d'un email d'entreprise
+//___________________________________________
+void adressemail(char nom[], char prenom[])
+{
+char email[TAILLE_POSTE];
+
+	supprespaces(prenom);
+	strcpy(email, prenom);
+	strcat(email,".");
+	supprespaces(nom);
+	strcat(email, nom);
+	strcat(email,"@entreprise.com");
+}
+
+//___________________________________________
+// Fonction pour retirer les espaces d'une chaîne de caractères
+//___________________________________________
+
+void supprespaces(char cdc[])
+{
+	char cdc2[50];	
+	int i, j, taille_cdc;
+
+	taille_cdc = strlen(cdc);
+
+	j=0;
+
+	for (i=0; i<taille_cdc; i++)
+	{
+		if (cdc[i]!=' ')
+			{
+				cdc[j]=cdc[i];
+				j++;	
+			}	
+	}
+}
+
+
+//___________________________________________
+// Procédure pour la création d'un login
+//___________________________________________
+void creation_login (struct Personne employe)
+
+{
+	char partnom[TAILLE_MOT], pseudo[TAILLE_MOT], nomutilisateur[TAILLE_MOT], motdepasse[TAILLE_MOT], numpseudocdc = numpseudo;
+	int choixauto= NON_TROUVE, numero = NON_TROUVE, num= NON_TROUVE;
+	struct Personne admin;
+	
+	printf ("Nom : ");
+	scanf("%s", employe.nom);
+	printf ("Prenom : ");
+	scanf ("%s",employe.prenom);
+	
+	//------------------------------------ créer le username
+	
+	strncpy(partnom, employe.nom, 6); // on garde 6 lettres du nom de famille
+	//printf("%s\n", partnom);
+	
+	strncpy(pseudo, employe.prenom, 1); //la première lettre du prénom en début d'username
+	//printf("%s\n", pseudo);
+
+	strcat(pseudo,partnom); //on concatène l'initiale du prénom avec les 6 premières lettres du nom 
+
+	//printf("%s\n", pseudo);
+
+	strcpy(employe.username, pseudo); // on enregistre le pseudo donné dans la struct associée
+	
+	//printf("%s",employe.username);
+	
+	// pour ajouter un chiffre à la fin d'un doublon 
+	
+	numero = rechercherParUsername(employe.username);
+	
+	if (numero != NON_TROUVE)
+	{
+		strcat(employe.username, numpseudocdc);
+		numpseudo++; //utilisation de i tout username doublon confondu pour éviter les triplons 
+	}
+	
+	
+	//----------------------------------------- créer le mot de passe
+/*	printf("Vous avez maintenant besoin d'un administrateur pour intervenir sur le mot de passe de cet employe");
+
+	while (((strcmp(nomutilisateur,admin.username[num]))&&(strcmp(motdepasse,admin.motdepasse[num]))!=0))
+	{
+		printf("Entrez votre nom d'utilisateur administrateur : ");
+		scanf ("%s", nomutilisateur);
+		num = rechercherParUsername(nomutilisateur);
+		printf ("Entrez votre mot de passe administrateur : ");
+		scanf ("%s", motdepasse);
+		
+	}
+*/
+
+	
+	while ((choixauto!=1)&&(choixauto!=2)&&(choixauto!=3))
+	
+	{
+		printf ("Veuillez entrer le mot de passe choisi : ");
+		scanf ("%s", motdepasse);
+		strcpy(employe.motdepasse, motdepasse);
+		printf ("Quel type est le niveau de droit de cet utilisateur ?\n");
+		printf ("1 - Autorisations administrateur (service informatique)\n");
+		printf ("2 - Autorisations ressources humaines (service ressources humaines)\n");
+		printf ("3 - Autorisations basiques (autres services, usagers)");
+		scanf ("%d", &choixauto);
+		
+		switch (choixauto)
+		{
+			case 1 : 
+				{
+				employe.valdroits = 0;	//droits administrateur
+				}
+				break;
+			case 2 :
+				{
+				employe.valdroits = 1; //droits rh
+				}
+				break;
+			case 3 :
+				{
+				employe.valdroits = 2; //droits usagers basiques	
+				}
+			break;
+			default : printf ("Mauvaise saisie");
+				break;
+		}
+		
+		
+	}
+}
+	
+//__________________________________________
+//Fonction qui retourne un numéro d'utilisateur en fonction du pseudo 
+//__________________________________________
+	
+int rechercherParUsername(char usernameRecherche[]) 
+{
+    int num = NON_TROUVE, i=NON_TROUVE;
+    struct Personne employe;
+
+    for (int i = 0; i < nombrePersonnes; i++) 
+	{
+		employe = personnes[i];
+		
+        if (strcmp(employe.username, usernameRecherche) == 0) 
+		{
+            num = i;
+        }
+    }
+    
+    return num;
+
+}
+
+//__________________________________________
+//Fonction qui retourne un numéro d'utilisateur en fonction du pseudo 
+//__________________________________________
+	
+int rechercherParNum(int numRecherche) 
+{
+    int num = NON_TROUVE, i=NON_TROUVE;
+    struct Personne employe;
+
+    for (int i = 0; i < nombrePersonnes; i++) 
+	{
+		employe = personnes[i];
+		
+        if (employe.numeroIdentification == numRecherche) 
+		{
+            num = i;
+            break;
+        }
+    }
+    return num;
+}
+
+	
