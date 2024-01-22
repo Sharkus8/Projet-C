@@ -1,0 +1,8 @@
+// Fonction pour générer un numéro d'utilisateur
+void genererNumeroUtilisateur(int Mois d'embauche, int moisNaissance) 
+{
+
+    int numeroUtilisateur = moisEntree * 100 + moisNaissance +(nombrePersonnes + 1) // on concatene 
+
+    return numeroUtilisateur;
+}
