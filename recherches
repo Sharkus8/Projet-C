@@ -55,14 +55,14 @@ void rechercherParNumeroIdentification() {
 
     printf("Entrez le numéro d'identification de l'employé à rechercher : ");
     scanf("%d", &numeroRecherche);
-    for (int i = 0; i < nombreEmployes; i++) {
+    for (int i = 0; i < nombreEmployes; i++) { 
         if (employes[i].numeroIdentification == numeroRecherche) {
             // Numéro d'identification trouvé, afficher les informations
             trouve = 1;
             printf("Nom : %s\n", employes[i].nom);
             printf("Prénom : %s\n", employes[i].prenom);
             printf("Numéro d'identification : %d\n", employes[i].numeroIdentification);
-            break; // Sortir de la boucle une fois le numéro d'identification trouvé
+            break;
         }
     }
 
