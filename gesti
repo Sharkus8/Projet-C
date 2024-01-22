@@ -124,20 +124,6 @@ void supprimerFichePersonne();
 ---------------------------------MAIN MENU PRINCIPAL---------------------------------------------
 //________________________________________________________________________________________________
 
-
-//___________________________________________
-// Fonction pour générer automatiquement une adresse e-mail
-//___________________________________________
-
-void genererAdresseEmail(char *prenom, char *nom, char *adresseEmail) {
-    // Convertir le prénom et le nom en minuscules
-    strlwr(prenom);
-    strlwr(nom);
-
-    // Copier le prénom et le nom dans l'adresse e-mail avec le format spécifié
-    sprintf(adresseEmail, "%s.%s@%s", prenom, nom, NOM_ENTREPRISE);
-}
-
 //___________________________________________
 // fonction pour saisir une fiche de personne
 //___________________________________________
