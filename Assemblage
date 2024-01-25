@@ -69,6 +69,7 @@ struct ficheposte
 	char salairedebutposte[TAILLE_MOT];
 	char diplome[TAILLE_MOT];
 	char gradeposte[TAILLE_MOT];
+	char descposte[5000]; 
 };
 
 //structure de conges
@@ -484,5 +485,52 @@ int rechercherParNum(int numRecherche)
     }
     return num;
 }
+//__________________________________________
+//procedure qui crée une fiche de poste et la stocker dans un fichier texte
 
-	
+//__________________________________________
+void creerFichePoste()
+{
+    char nomFichier[20] = "fiches_poste.txt";
+    FILE *fp;
+
+    struct FichePoste nouvelleFiche;
+
+    // les Rh saisissent les informations de la fiche de poste
+    printf("Entrez le nom du poste : ");
+    scanf("%s", nouvelleFiche.nomposte);
+
+    printf("Saisissez la discription du poste : ");
+    scanf("%s", nouvelleFiche.descposte);
+
+    printf("Entrez le salaire de début du poste : ");
+    scanf("%s", nouvelleFiche.salairedebutposte);
+
+    printf("Entrez le diplôme requis : ");
+    scanf("%s", nouvelleFiche.diplome);
+
+    printf("Entrez le grade du poste : ");
+    scanf("%s", nouvelleFiche.gradeposte);
+
+
+    fp = fopen(nomFichier, "a");
+
+    // Vérification de l'ouverture du fichier
+    if (fp == NULL) {
+        printf("Erreur lors de l'ouverture du fichier");
+        return;
+    }
+
+    // Écriture de la fiche de poste dans le fichier
+    fprintf(fp, "Nom du poste : %s\n", nouvelleFiche.nomposte);
+    fprintf(fp, "Nom du poste : %s\n", nouvelleFiche.descposte);
+    fprintf(fp, "Salaire de début du poste : %s\n", nouvelleFiche.salairedebutposte);
+    fprintf(fp, "Diplôme requis : %s\n", nouvelleFiche.diplome);
+    fprintf(fp, "Grade du poste : %s\n", nouvelleFiche.gradeposte);
+    fprintf(fp, "\n");  // Ajoute une ligne vide entre les fiches
+
+
+    fclose(fp);
+
+    printf("Fiche de poste créée avec succès et enregistrée dans le fichier %s.\n", nomFichier);
+}
