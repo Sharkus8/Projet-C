@@ -116,6 +116,7 @@ void calculsalaires();
 int rechercherParUsername(char usernameRecherche[]);
 int rechercherParNum(int numRecherche);
 void creerFichePoste() ;
+void supprimerFichePersonne();
 
 //procédures ayant trait à la demande de congés
 int datepaques(int a);
@@ -537,4 +538,33 @@ void creerFichePoste()
     fclose(fp);
 
     printf("Fiche de poste créée avec succès et enregistrée dans le fichier %s.\n", nomFichier);
+}
+
+//__________________________________________
+// procedure pour supprimer une fiche de personne par numéro d'identification
+//__________________________________________
+
+void supprimerFichePersonne() {
+    struct Personne employes[MAX_PERSONNES];
+    int numeroSuppression;
+
+
+    printf("Entrez le numéro d'identification de l'employé à supprimer : ");
+    scanf("%d", &numeroSuppression);
+
+    for (int i = 0; i < nombrePersonnes; i++) {
+        if (employes[i].numeroIdentification == numeroSuppression) {
+            // Supprimer la fiche de salarié
+            for (int j = i; j < nombrePersonnes - 1; j++) {
+                employes[j] = employes[j + 1];
+            }
+            nombrePersonnes--;
+
+            printf("Fiche supprimée avec succès.\n");
+
+            return;
+        }
+    }
+
+    printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroSuppression);
 }
