@@ -65,7 +65,7 @@ struct Personne
 //strcuture de fiche de poste pour avoir des fiches de postes unifiées
 struct ficheposte
 {
-	char nomposte[TAILLE_MOT];
+	char titreposte[TAILLE_MOT];
 	char salairedebutposte[TAILLE_MOT];
 	char diplome[TAILLE_MOT];
 	char gradeposte[TAILLE_MOT];
@@ -115,6 +115,7 @@ void convmaj1cdc(char cdc[]);
 void calculsalaires();
 int rechercherParUsername(char usernameRecherche[]);
 int rechercherParNum(int numRecherche);
+void creerFichePoste() ;
 
 //procédures ayant trait à la demande de congés
 int datepaques(int a);
@@ -137,6 +138,7 @@ int main ()
 		printf ("Que souhaitez-vous faire ?\n");
 		printf ("1 - Saisir une nouvelle fiche de renseignement\n");
 		printf ("2 - Afficher la fiche d'une personne\n");
+		printf ("3 - Creer une fiche de poste\n");
 		printf ("0 - Quitter le logiciel \n");
 		scanf("%d", &choix);
 		
@@ -146,8 +148,8 @@ int main ()
 				break;
 			case 2 : afficherfiche();
 				break;
-		/*	case 3 : 
-				break; */
+		        case 3 : creerFichePoste()
+				break; 
 		}
 	}
 }
@@ -497,10 +499,10 @@ void creerFichePoste()
     struct FichePoste nouvelleFiche;
 
     // les Rh saisissent les informations de la fiche de poste
-    printf("Entrez le nom du poste : ");
-    scanf("%s", nouvelleFiche.nomposte);
+    printf("Entrez le titre du poste : ");
+    scanf("%s", nouvelleFiche.titreposte);
 
-    printf("Saisissez la discription du poste : ");
+    printf("Saisissez la description du poste : ");
     scanf("%s", nouvelleFiche.descposte);
 
     printf("Entrez le salaire de début du poste : ");
@@ -522,12 +524,12 @@ void creerFichePoste()
     }
 
     // Écriture de la fiche de poste dans le fichier
-    fprintf(fp, "Nom du poste : %s\n", nouvelleFiche.nomposte);
-    fprintf(fp, "Nom du poste : %s\n", nouvelleFiche.descposte);
+    fprintf(fp, "Titre du poste : %s\n", nouvelleFiche.titreposte);
+    fprintf(fp, "description du poste : %s\n", nouvelleFiche.descposte);
     fprintf(fp, "Salaire de début du poste : %s\n", nouvelleFiche.salairedebutposte);
     fprintf(fp, "Diplôme requis : %s\n", nouvelleFiche.diplome);
     fprintf(fp, "Grade du poste : %s\n", nouvelleFiche.gradeposte);
-    fprintf(fp, "\n");  // Ajoute une ligne vide entre les fiches
+    fprintf(fp, "***********************************\n");  // Ajoute une ligne vide entre les fiches
 
 
     fclose(fp);
