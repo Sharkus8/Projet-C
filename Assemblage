@@ -498,21 +498,23 @@ void creerFichePoste()
 
     struct ficheposte nouvelleFiche;
 
-    // les Rh saisissent les informations de la fiche de poste
+    while(getchar()!='\n');
     printf("Entrez le titre du poste : ");
-    scanf("%s", nouvelleFiche.titreposte);
-
+    scanf("%[^\n]", nouvelleFiche.titreposte);
+    while(getchar()!='\n');
     printf("Saisissez la description du poste : ");
-    scanf("%s", nouvelleFiche.descposte);
-
+    scanf("%[^\n]", nouvelleFiche.descposte);
+    while(getchar()!='\n');
     printf("Entrez le salaire de début du poste : ");
-    scanf("%s", nouvelleFiche.salairedebutposte);
-
+    scanf("%[^\n]", nouvelleFiche.salairedebutposte);
+    while(getchar()!='\n');
     printf("Entrez le diplôme requis : ");
-    scanf("%s", nouvelleFiche.diplome);
-
+    scanf("%[^\n]", nouvelleFiche.diplome);
+    while(getchar()!='\n');
     printf("Entrez le grade du poste : ");
-    scanf("%s", nouvelleFiche.gradeposte);
+    scanf("%[^\n]", nouvelleFiche.gradeposte);
+    while(getchar()!='\n');
+
 
 
     fp = fopen(nomFichier, "a");
