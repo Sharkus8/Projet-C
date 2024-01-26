@@ -56,3 +56,45 @@ void modifierCoordonnees(int numeroPersonnel) {
 
     printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroPersonnel);
 }
+// Fonction pour modifier les coordonnées
+void modifierCoordonnees(int numeroPersonnel) {
+    for (int i = 0; i < nombreCoordonnees; i++) 
+{
+        if (coordonnees[i].numeroIdentification == numeroPersonnel)
+{
+            printf("Entrez le nouveau numéro : ");
+            scanf("%s", coordonnees[i].numero);
+
+            printf("Entrez la nouvelle rue : ");
+            scanf("%s", coordonnees[i].rue);
+
+            printf("Entrez le premier complément d'adresse : ");
+            scanf("%s", coordonnees[i].complement1);
+
+            printf("Entrez le deuxième complément d'adresse : ");
+            scanf("%s", coordonnees[i].complement2);
+
+            printf("Entrez le nouveau code postal : ");
+            scanf("%d", &coordonnees[i].code_postal);
+
+            printf("Entrez la nouvelle ville : ");
+            scanf("%s", coordonnees[i].ville);
+
+            printf("Entrez le nouveau pays : ");
+            scanf("%s", coordonnees[i].pays);
+
+            printf("Entrez la nouvelle adresse e-mail : ");
+            scanf("%s", coordonnees[i].adresse_mail);
+
+            printf("Entrez le nouveau numéro de téléphone : ");
+            scanf("%d", &coordonnees[i].telephone);
+
+            printf("Coordonnées mises à jour avec succès.\n");
+
+            // Enregistrer la date de la dernière modification
+            time(&coordonnees[i].dateDerniereModification);
+        }
+    }
+
+    printf("Aucun employé trouvé avec le numéro d'identification %d.\n", numeroPersonnel);
+}
