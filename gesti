@@ -59,6 +59,7 @@ struct coordonnees
 		char pays[TAILLE_NOM];
 		char adresse_mail[TAILLE_NOM];
 		int telephone;
+		time_t dateDerniereModification;
 	};
 	
 //structure d'une date
