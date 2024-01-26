@@ -1,5 +1,6 @@
 // Fonction pour changer l'état civil et le nom
-void modifierEtatCivilNom(int numeroPersonnel)
+void modifierEtatCivilNom(int numeroPersonnel) 
+{
 char nouvelEtatCivil[100];
 char nouveauNom[100];
 
